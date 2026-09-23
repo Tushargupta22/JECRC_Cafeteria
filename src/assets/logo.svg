@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 215 40" fill="none">
+  <rect x="2" y="2" width="36" height="36" rx="10" fill="#FF5E3A" />
+  <path d="M14 26C14 18 20 12 26 12C28 12 29 13.5 28 15C25 19 22 22 17 26C16 26.8 14.5 26.5 14 26Z" fill="#FFFFFF"/>
+  <circle cx="26" cy="15" r="2.5" fill="#FFE500"/>
+  <path d="M12 23C13 25 15 27 18 28C22 29 26 27 28 24" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+  <text x="46" y="26" font-family="'Outfit', system-ui, sans-serif" font-weight="800" font-size="18" fill="#0F172A" letter-spacing="-0.5">JECRC <tspan fill="#FF5E3A">Cafeteria</tspan></text>
+</svg>

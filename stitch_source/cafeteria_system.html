@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>CampusBite - Smart College Cafeteria</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-lowest": "#ffffff", "on-secondary-container": "#00714d", "surface-dim": "#d2d9f4", "surface-tint": "#b42907", "surface-bright": "#faf8ff", "on-secondary-fixed-variant": "#005236", "on-error-container": "#93000a", "on-tertiary-container": "#0e009e", "primary-fixed": "#ffdad2", "tertiary": "#494bd6", "on-secondary-fixed": "#002113", "on-secondary": "#ffffff", "on-surface": "#131b2e", "on-tertiary": "#ffffff", "surface-variant": "#dae2fd", "tertiary-container": "#8487ff", "secondary-fixed": "#6ffbbe", "surface-container": "#eaedff", "inverse-primary": "#ffb4a3", "error": "#ba1a1a", "surface-container-highest": "#dae2fd", "on-primary-container": "#5c0e00", "on-tertiary-fixed": "#07006c", "error-container": "#ffdad6", "on-background": "#131b2e", "surface-container-high": "#e2e7ff", "secondary": "#006c49", "surface-container-low": "#f2f3ff", "on-error": "#ffffff", "on-primary-fixed-variant": "#8b1a00", "on-primary-fixed": "#3d0600", "secondary-container": "#6cf8bb", "secondary-fixed-dim": "#4edea3", "on-surface-variant": "#5a413b", "inverse-on-surface": "#eef0ff", "tertiary-fixed-dim": "#c0c1ff", "inverse-surface": "#283044", "surface": "#faf8ff", "background": "#faf8ff", "on-tertiary-fixed-variant": "#2f2ebe", "primary-container": "#ff5e3a", "outline-variant": "#e3beb6", "on-primary": "#ffffff", "tertiary-fixed": "#e1e0ff", "primary": "#b42907", "outline": "#8e7069", "primary-fixed-dim": "#ffb4a3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "container-max": "80rem", "gutter-mobile": "1rem", "space-xl": "2rem", "space-2xl": "3rem", "space-3xl": "4rem", "space-xs": "0.5rem", "space-2xs": "0.25rem", "space-lg": "1.5rem", "space-sm": "0.75rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "headline-lg": [ "Outfit" ], "headline-md": [ "Outfit" ], "body-lg": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "display-hero": [ "Outfit" ], "title-md": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "display-hero-mobile": [ "Outfit" ], "body-md": [ "Plus Jakarta Sans" ], "headline-sm": [ "Outfit" ], "headline-lg-mobile": [ "Outfit" ], "label-sm": [ "Plus Jakarta Sans" ], "title-lg": [ "Plus Jakarta Sans" ], "label-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "display-hero": [ "56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" } ], "title-md": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" } ], "display-hero-mobile": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ], "headline-sm": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-sm": [ "10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" } ], "title-lg": [ "18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "label-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full bg-surface-container-low py-space-2xs px-gutter-desktop"><div class="max-w-container-max mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-md text-label-md text-on-surface">🏛️ North Campus Central Hall</span><span class="text-outline">•</span><span class="text-secondary font-label-sm text-label-sm">Open</span><span class="text-outline">•</span><span class="text-primary font-label-sm text-label-sm font-bold">Busy (12 min wait)</span></div><div class="flex items-center gap-space-sm"><span class="text-on-surface-variant">Demo Environment Switcher:</span><a class="px-space-xs py-space-2xs rounded-full bg-surface-container-highest text-on-surface hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="home" href="#">Student View</a><a class="px-space-xs py-space-2xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="admin-dashboard" href="#">Admin Dashboard (/admin)</a><a class="px-space-xs py-space-2xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="cafeteria-display" href="#">Cafeteria TV (/cafeteria-display)</a></div></div></div><div class="h-20 max-w-container-max mx-auto px-gutter-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-xs" data-path="home" href="#"><img alt="CampusBite Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U9boxmFZO2SAPyVH-GmrUOvb7d3EqWNgjsNhHWMbL0k5Wsy2T_SNCL-DWcEdHNks86Uvaosm1iifWXWEC8Gm8J4dqj-lMp-aXI17iHFOevlDGZnhgujZusFOJFqO9kI2NKMNVYzwKzTgTMCG-PhYK_yD4R3O6nWGIj3ocpspI0pB2upkrryln-jRkAoK3ZqgtLfTQ85LPc8YaS9JJG0HFbF5lbzdnDoet_zsp1cPt5q2oixlSPJPtx2pQ"/><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CampusBite</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold rounded-full"><a aria-current="page" class="px-space-sm py-space-xs transition-colors bg-primary-container text-on-primary font-bold rounded-full" data-path="home" href="#">Home</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="menu" href="#">Menu</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="rewards-plus" href="#">Rewards &amp; Plus</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="live-leaderboard" href="#">Live Leaderboard</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="track-order" href="#">Track Order</a></nav></div><div class="flex items-center gap-space-sm"><button class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-all shadow-[0_1px_8px_rgba(0,0,0,0.04)] font-body-sm text-body-sm"><span class="material-symbols-outlined text-base">search</span><span>Search dishes, stalls...</span><kbd class="px-space-2xs py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm">⌘K</kbd></button><button class="relative p-space-xs rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors"><span class="material-symbols-outlined">shopping_bag</span><span class="absolute -top-1 -right-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm">3</span></button><div class="flex items-center gap-space-xs pl-space-xs pr-space-sm py-space-2xs rounded-full bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3GBETFU6Qm5PHbYnzErxOB3g3md0RI4V9IP4pC0LKc5KOP-KOo6ujq1JGGufw6HlGsoq4Pr643PvtmLx_7wPU6gR3LDjFuj9yXQlFi_t4gICedPLgWe0N3NnJ-X4V6t7KIzPGxu5xTCuW8AqlXMeGZVWwp70fRSYKNA9zjTq2vb8CP6AYeCHePCtD-l8ajnbcWgZZ4ogLo5MxMSmOe6M00vCRQtGl36xCgfSrsv-aBXo9XDr8DmcU"/><div class="flex flex-col text-left"><div class="flex items-center gap-space-2xs"><span class="font-label-md text-label-md text-on-surface">Tushar G.</span><span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">⭐ Plus Member</span></div><div class="flex items-center gap-space-2xs text-on-surface-variant font-label-sm text-label-sm"><span>🪙 450 pts</span><span>•</span><span class="text-primary font-bold">Rank #2</span></div></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Personalized Student Status Bar -->
+<section class="w-full bg-surface-container-lowest shadow-sm py-space-sm border-b-0">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-sm">
+<!-- Left: Student identity & major -->
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-gradient-to-tr from-primary-container to-secondary-container p-0.5 shadow-sm">
+<img class="w-full h-full object-cover rounded-full" data-alt="Close up profile photo of a modern energetic university computer science student smiling in front of campus library, soft cinematic daylight, vivid modern style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8S-W5wneb7B3lyTg4roFPcDmskx8PfWCvhzZBYRYa6VFEc5wNmRZQ13jHpXEw7mUhsHVCfGwHElfl5wqsU3a3D2_dZVwWxA_D71dq_K8daaiIK8wvs5zS-ZKasmg-d-7VPypX7iPU8EP-uP4N8eV9WWmrmoGM8KiRL8qVrGbhbVi_3qwVZ58H5ReU9VLLRgWM19XZ7sFbEKpvMY9TC2b2KyeEzsW5CtNpFDbARQO_TTLyaI5t7noU"/>
+</div>
+<span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-secondary-fixed-dim ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Good Morning, Tushar 👋</h1>
+<span class="px-space-xs py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">B.Tech CS, Year 3</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">North Campus Hall • Student ID #2022CS4412</p>
+</div>
+</div>
+<!-- Right: Active Badges / Gamified Pills -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<!-- Plus Tier Pill -->
+<div class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-full bg-surface-container-low shadow-sm hover:shadow transition-all cursor-pointer">
+<span class="material-symbols-outlined text-secondary text-lg" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Cafeteria Plus</span>
+<span class="text-[10px] text-on-surface-variant leading-none">Active till 30 Sep</span>
+</div>
+</div>
+<!-- Points Pill with mini progress -->
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-low shadow-sm">
+<span class="text-base">🪙</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">450 Points</span>
+<span class="text-[10px] text-primary font-semibold leading-none">50 pts to ₹50 OFF</span>
+</div>
+<div class="w-10 h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- Rank Pill -->
+<div class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-full bg-surface-container-low shadow-sm">
+<span class="material-symbols-outlined text-amber-500 text-lg" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Rank #2 Today</span>
+<span class="text-[10px] text-on-surface-variant leading-none">₹850 spent</span>
+</div>
+</div>
+<!-- Streak Pill -->
+<div class="flex items-center gap-space-2xs px-space-sm py-space-xs rounded-full bg-surface-container-low shadow-sm">
+<span class="text-base">🔥</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">5-Day Order Streak</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Hero Section -->
+<section class="w-full relative overflow-hidden pt-space-xl pb-space-2xl">
+<!-- Ambient color orb in background -->
+<div class="absolute top-1/4 -left-20 w-96 h-96 rounded-full bg-primary-fixed/20 blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-0 right-10 w-80 h-80 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Left Content (Column 7) -->
+<div class="lg:col-span-6 flex flex-col space-y-space-md z-10">
+<div class="inline-flex items-center gap-space-xs w-fit px-space-sm py-space-2xs rounded-full bg-surface-container shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-secondary-container tracking-wider uppercase">Live Cafeteria Sync</span>
+<span class="text-outline">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Smart Pre-Order Enabled</span>
+</div>
+<h2 class="font-display-hero text-display-hero text-on-surface leading-tight tracking-tight">
+            Your Campus Food, <br class="hidden sm:inline"/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-container">Smarter.</span>
+</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+            Order your favourite cafeteria food, earn rewards, unlock exclusive offers and climb today's leaderboard without standing in line.
+          </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<button class="h-12 px-space-lg rounded-full bg-primary-container text-on-primary font-label-lg text-label-lg shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center gap-space-xs" onclick="location.href='#menu'">
+<span class="material-symbols-outlined text-lg">restaurant_menu</span>
+<span>Order Now</span>
+</button>
+<button class="h-12 px-space-lg rounded-full bg-surface-container-lowest text-on-surface font-label-lg text-label-lg shadow-sm hover:shadow-md hover:bg-surface-container-low transition-all flex items-center gap-space-xs" onclick="location.href='#highlights'">
+<span class="material-symbols-outlined text-lg text-secondary">redeem</span>
+<span>Explore Offers &amp; Rewards</span>
+</button>
+</div>
+<!-- Micro Metric Highlights -->
+<div class="grid grid-cols-3 gap-space-sm pt-space-md max-w-lg">
+<div class="flex flex-col p-space-sm rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-lg">bolt</span>
+<span class="font-headline-sm text-headline-sm font-bold">8-12m</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Avg Pickup Time</span>
+</div>
+<div class="flex flex-col p-space-sm rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-1 text-amber-500">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-headline-sm text-headline-sm font-bold">4.8</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Campus Rating</span>
+</div>
+<div class="flex flex-col p-space-sm rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-lg">savings</span>
+<span class="font-headline-sm text-headline-sm font-bold">10%</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Back in Coins</span>
+</div>
+</div>
+</div>
+<!-- Right Visual (Column 6 with Negative Margin overlap) -->
+<div class="lg:col-span-6 relative flex justify-center lg:justify-end">
+<div class="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl group">
+<img alt="Gourmet double smash burger with seasoned fries, fresh Greek salad and cold hazelnut milkshake on cafeteria wooden table" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_n4ZNUD3tWPyfkLm9_fAH9oL8AqHkoZjYMovY66c7pWg_Ycbc_PA1MvJEwvYgeVSxorIc8nuh7LbsVoJoTblTTwkj7lxfh84ttgpp4AU9Q8z6-uY_O8ZP-V4L1YE41hfKZf6JzjAmBiZj6RKVt1SS5jqzFrg1uWSdwv_N_5KcLY-JFlIgFriEoRDFUJaG6kgxSzvgqsqYIxV83laglQO_TYpA1IRj6uKx-atRQHhxA_mp73MdG9qh"/>
+<!-- Gradient Overlay Scrim for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+<!-- Overlaid quick-stats chip top left -->
+<div class="absolute top-4 left-4 flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-md">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">⚡ 8-12 min avg pickup</span>
+</div>
+<!-- Overlaid quick-stats chip top right -->
+<div class="absolute top-4 right-4 flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-md text-on-surface">
+<span class="material-symbols-outlined text-amber-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.8/5 campus rating</span>
+</div>
+<!-- Bottom Floating Tray Info -->
+<div class="absolute bottom-4 inset-x-4 p-space-sm rounded-2xl bg-surface-container-lowest/95 backdrop-blur-md shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary font-bold">
+                  🍔
+                </div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface leading-snug">The Quad Smash Platter</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Smash Double + Crispy Fries + Shake</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-label-sm text-secondary font-bold">🪙 10 pts per ₹100 spent</span>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹160</span>
+</div>
+<button class="w-9 h-9 rounded-full bg-primary-container hover:bg-primary text-on-primary flex items-center justify-center transition-colors shadow-sm">
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Accent decorative floating pill behind -->
+<div class="absolute -bottom-6 -left-6 hidden sm:flex items-center gap-space-xs px-space-md py-space-xs rounded-2xl bg-surface-container-lowest shadow-xl z-20">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-base">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">100% Student Verified</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hygienic &amp; Fresh daily</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Cafeteria Counter Rush Status -->
+<section class="w-full bg-surface-container-low py-space-lg">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="p-space-lg rounded-3xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md min-w-max">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-2xl text-primary">microwave</span>
+</div>
+<div>
+<div class="flex items-center gap-space-2xs">
+<span class="font-title-lg text-title-lg text-on-surface">Live Counter Rush Status</span>
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Real-time camera queue estimation at North Hall</p>
+</div>
+</div>
+<!-- Meter Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm w-full">
+<!-- Counter A -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Counter A (Snacks)</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold">Fast Moving</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">4 min wait</span>
+</div>
+<!-- Counter B -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Counter B (Meals)</span>
+<span class="font-body-sm text-body-sm text-primary font-bold">Moderate Rush</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm">9 min wait</span>
+</div>
+<!-- Counter C -->
+<div class="p-space-sm rounded-2xl bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Counter C (Beverages)</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold">Minimal Queue</span>
+</div>
+</div>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">2 min wait</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Today's Highlights Grid (4 Interactive Cards) -->
+<section class="w-full py-space-2xl" id="highlights">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-xs">
+<div>
+<span class="font-label-md text-label-md text-primary tracking-widest uppercase font-bold">Curated Campus Pulse</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Today's Highlights</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Special offers, trending culinary items, and the campus leaderboard updated live every 60s.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Popular Today -->
+<div class="rounded-3xl bg-surface-container-lowest p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-primary font-label-sm text-label-sm font-bold flex items-center gap-1">
+                🔥 Popular Today
+              </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs text-secondary">sync</span> Live
+              </span>
+</div>
+<div class="relative w-full h-36 rounded-2xl overflow-hidden mb-space-sm">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up photography of delicious juicy smash burger and chilled hazelnut cold brew coffee beverage side by side on dark restaurant counter, dynamic warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF9JFlz8t5HmXqBACQMPWqe3OD_IgG9pPYqIBQjppht1KQyrheOuhSZHagXv9j3cYRoaSWfgcWJVhqEiJoAbytsAgWgfLyOGEVXCdaAfgOZHt2dujlhFOojyCysP4dfsaeMUnCvOmJ_yL8heBcj_m60z7e_IQCAtq41nmUc9_2iIkVXI_grVWzLL-JDWWpsCEKLt5GQ-QrCs4V9uTRDqdiYzA0olYquIz6L38ZaTSUyA8USM3j9tAo"/>
+<div class="absolute bottom-2 left-2 px-space-xs py-0.5 rounded-md bg-on-surface/75 backdrop-blur-sm text-surface text-[11px] font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span> Ordered 42 times this lunch
+              </div>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-snug">Smash Burger &amp; Hazelnut Cold Brew</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Twin-patty caramelized onion melt served alongside artisan hazelnut cold drip.</p>
+</div>
+<div class="pt-space-md mt-space-sm flex items-center justify-between">
+<div>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹140</span>
+<span class="line-through font-body-sm text-body-sm text-on-surface-variant ml-1">₹175</span>
+</div>
+<button class="px-space-sm py-space-xs rounded-full bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors flex items-center gap-1">
+<span>Quick Add</span>
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Personalized Offer -->
+<div class="rounded-3xl bg-gradient-to-br from-primary-fixed/30 via-surface-container-lowest to-surface-container-lowest p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-primary-container/10 pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold flex items-center gap-1">
+                🎁 Personal Perk
+              </span>
+<span class="material-symbols-outlined text-primary-container">favorite</span>
+</div>
+<div class="w-full h-36 rounded-2xl bg-surface-container flex flex-col items-center justify-center text-center p-space-sm mb-space-sm relative overflow-hidden">
+<div class="text-4xl mb-1">☕</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Frequent Item Affinity</span>
+<span class="font-title-lg text-title-lg text-primary font-bold">20% OFF Cold Coffee</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-snug">Because you order it frequently</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Automatic campus loyalty reward applied on any barista coffee checkout today.</p>
+</div>
+<div class="pt-space-md mt-space-sm">
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low mb-space-xs">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-bold text-on-surface-variant">Coupon Code</span>
+<span class="font-label-md text-label-md font-mono text-primary font-bold">COFFEELOVER</span>
+</div>
+<button class="px-space-xs py-1 rounded-lg bg-surface-container-highest text-on-surface text-xs font-bold hover:bg-surface-container transition-colors" onclick="navigator.clipboard ? navigator.clipboard.writeText('COFFEELOVER') : null; this.innerText='Copied!'">
+                Copy
+              </button>
+</div>
+<button class="w-full py-space-xs rounded-full bg-surface-container-highest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors text-center">
+              Apply Code Now
+            </button>
+</div>
+</div>
+<!-- Card 3: Today's Leaderboard Preview -->
+<div class="rounded-3xl bg-surface-container-lowest p-space-md shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="px-space-xs py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-sm text-label-sm font-bold flex items-center gap-1">
+                🏆 Top Spenders Today
+              </span>
+<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface leading-snug">Campus Leaderboard</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Spend daily to win free combo passes &amp; gold status badge.</p>
+<!-- Leaderboard Mini List -->
+<div class="mt-space-sm space-y-space-xs">
+<!-- #1 Item -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-amber-50/80">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-amber-400 text-amber-950 font-bold text-xs flex items-center justify-center">1</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Tushar Gupta (You)</span>
+<span class="text-[10px] text-on-surface-variant">B.Tech CS</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹850</span>
+</div>
+<!-- #2 Item -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center">2</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Rahul S.</span>
+<span class="text-[10px] text-on-surface-variant">MBA Sem 2</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">₹720</span>
+</div>
+<!-- #3 Item -->
+<div class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-amber-700/20 text-amber-900 font-bold text-xs flex items-center justify-center">3</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Aman V.</span>
+<span class="text-[10px] text-on-surface-variant">B.Des Year 1</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">₹650</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-xs">
+<a class="font-label-sm text-label-sm text-primary font-bold hover:underline flex items-center justify-center gap-1" href="#">
+<span>View Full Leaderboard (Top 50)</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 4: Plus Upsell -->
+<div class="rounded-3xl bg-gradient-to-br from-tertiary to-primary-container p-space-md shadow-md hover:shadow-xl text-on-tertiary transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-white/10 blur-xl"></div>
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="px-space-xs py-0.5 rounded-full bg-white/20 text-white backdrop-blur-sm font-label-sm text-label-sm font-bold flex items-center gap-1">
+                ⭐ Student Club
+              </span>
+<span class="text-xs bg-secondary-fixed text-on-secondary-fixed font-bold px-1.5 py-0.5 rounded-md">Save ₹1.2k/mo</span>
+</div>
+<div class="my-space-md">
+<span class="font-display-hero-mobile text-display-hero-mobile text-white leading-none font-extrabold">Plus</span>
+<p class="font-body-md text-body-md text-white/90 mt-space-xs">Save up to ₹1,200/mo on daily campus meals with 0% kiosk convenience fees &amp; priority grill slots.</p>
+</div>
+<ul class="space-y-space-xs text-white/95 font-body-sm text-body-sm">
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary-fixed">check_circle</span>
+<span>Zero queue priority pickup</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary-fixed">check_circle</span>
+<span>Free 200ml cold drink daily</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-secondary-fixed">check_circle</span>
+<span>Double rewards multiplier</span>
+</li>
+</ul>
+</div>
+<div class="pt-space-lg">
+<button class="w-full py-space-xs rounded-full bg-white text-on-primary-container font-label-md text-label-md font-bold shadow-md hover:bg-surface-bright transition-all">
+              Manage / Extend Plus
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended For You & One-Click Re-Order -->
+<section class="w-full py-space-xl bg-surface-container-low" id="menu">
+<div class="max-w-container-max mx-auto px-gutter-desktop">
+<!-- Section Header with Dynamic Prompt -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg gap-space-sm">
+<div>
+<div class="flex items-center gap-space-xs text-primary font-label-md text-label-md font-bold uppercase tracking-wider mb-1">
+<span class="material-symbols-outlined text-base">auto_awesome</span>
+<span>Tailored Algorithm</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Recommended For You</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Because you love <span class="text-on-surface font-semibold">artisan coffee &amp; quick bites</span> during 11:30 AM break.
+          </p>
+</div>
+<!-- Quick station filter tags -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-sm py-space-2xs rounded-full bg-on-surface text-surface font-label-md text-label-md shrink-0">All For You</button>
+<button class="px-space-sm py-space-2xs rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors">Beverages &amp; Shakes</button>
+<button class="px-space-sm py-space-2xs rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors">Grill &amp; Burgers</button>
+<button class="px-space-sm py-space-2xs rounded-full bg-surface-container-lowest text-on-surface-variant hover:text-on-surface font-label-md text-label-md shrink-0 transition-colors">Healthy Bowls</button>
+</div>
+</div>
+<!-- Meal Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Meal 1: Iced Cold Coffee -->
+<div class="rounded-3xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[4/3] w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Refreshing tall glass of iced cold coffee topped with frothy milk swirl, coffee beans scattered, clean cafeteria table, inviting sunny morning lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyJ0TEkkBQ6BIb39hXcl1DN88aanv2TtdYe_1BtHncnA6eWsiGSNLMOTR0e3xsfabBwziMxR6rqvHUvCOsWIXgjLI8ZpGbaHP-kMCEF4D_kjs2FzdQXEDMFqjqq70V9DZsysxXLJa716A-RLxm1TOk3RWERAq-LnvJetSBfXocqRkuWdFZpopLNHnTAN9HCoOTGNwXj0hp87nAh1C_vioKkaBn9hWsO4D9DM85cIschuf4l9bnCDBb"/>
+<!-- Dietary Tag -->
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Veg
+            </span>
+<!-- Re-order count tag -->
+<span class="absolute top-3 right-3 px-space-xs py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+              Ordered 14x by you
+            </span>
+<!-- Floating Quick Add Button -->
+<button class="absolute -bottom-4 right-4 w-10 h-10 rounded-full bg-primary-container text-on-primary shadow-lg hover:scale-110 active:scale-95 transition-all flex items-center justify-center" onclick="updateCartCount(1)">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="p-space-md pt-space-lg flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">North Hall Brew Station</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">⚡ 3 min wait</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold mt-1">Artisan Iced Cold Coffee</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Slow steeped roasted beans, creamy chilled whole milk, topped with rich cocoa dust.</p>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<div>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹60</span>
+<span class="text-xs text-on-surface-variant ml-1">+6 pts</span>
+</div>
+<button class="px-space-sm py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold transition-colors" onclick="updateCartCount(1)">
+                Re-order
+              </button>
+</div>
+</div>
+</div>
+<!-- Meal 2: Crispy Paneer Tikka Burger -->
+<div class="rounded-3xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[4/3] w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Crispy breaded cottage cheese paneer tikka burger with mint mayonnaise, crisp lettuce, soft toasted sesame brioche bun on parchment paper in bright modern cafeteria" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtX44Ki-M7sxZs0YSr-NZZ1OBi3VXyouh9nL8w2R-aSZp86gGKAeYCsNMm519ADJpEVw2Niexf7DC8LJaPRL8B6miqhV72XlzYGROrrWhGMJjrDPpjUxwiscWBG3t8Xi1gT7peIlP5e2FkZTdIEPFPsuRdq3vcPjG5iF7OCo4mgUbTn38qEI8c_qUO8wA1Ow05bmAMC77y4lnMNYDaJIB1MVrzuaROBeU2BXBs_bMKgyReYFA_JMrM"/>
+<!-- Dietary Tag -->
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Veg
+            </span>
+<span class="absolute top-3 right-3 px-space-xs py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-primary font-label-sm text-label-sm font-bold shadow-sm">
+              Chef Special
+            </span>
+<!-- Floating Quick Add Button -->
+<button class="absolute -bottom-4 right-4 w-10 h-10 rounded-full bg-primary-container text-on-primary shadow-lg hover:scale-110 active:scale-95 transition-all flex items-center justify-center" onclick="updateCartCount(1)">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="p-space-md pt-space-lg flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">The Campus Grill</span>
+<span class="font-label-sm text-label-sm text-amber-600 font-bold">⚡ 7 min wait</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold mt-1">Crispy Paneer Tikka Burger</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Panko-crusted spiced cottage cheese patty, mint yogurt sauce, crisp iceberg on toasted sesame brioche.</p>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<div>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹80</span>
+<span class="text-xs text-on-surface-variant ml-1">+8 pts</span>
+</div>
+<button class="px-space-sm py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold transition-colors" onclick="updateCartCount(1)">
+                Re-order
+              </button>
+</div>
+</div>
+</div>
+<!-- Meal 3: Peri Peri Tossed Fries -->
+<div class="rounded-3xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[4/3] w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Crispy golden french fries dusted generously with vibrant red peri peri spice blend in craft cardboard cone alongside garlic dip, food photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDA526BwW_sOGvISMT7mv7QNHyTdlUOSDiMrNl442IUPF08PvKr0XjEuiFuKuDeRnDzWg9aIKgGQpMRs-rp-HRJoncDCChVz0pzhOrjBa0tchS0mGxLwANxV8iSo6xBURlaqlNQW30Cz3isf3huzy68St8HjZMQBD4mpAuFbEiQL3XbkAa5Kr05ON2z6ZM_9D4DS9ho1Yyh58CR6pSZ5hDaDM-lR4udhGSqU_jmevHunb6qu_JfdsX"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Veg
+            </span>
+<span class="absolute top-3 right-3 px-space-xs py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm shadow-sm">
+              Snack Hit
+            </span>
+<button class="absolute -bottom-4 right-4 w-10 h-10 rounded-full bg-primary-container text-on-primary shadow-lg hover:scale-110 active:scale-95 transition-all flex items-center justify-center" onclick="updateCartCount(1)">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="p-space-md pt-space-lg flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Fries &amp; Dips Kiosk</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">⚡ 4 min wait</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold mt-1">Zesty Peri Peri Fries</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Skin-on double fried potato cuts seasoned with our spicy African bird's eye spice blend.</p>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<div>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹55</span>
+<span class="text-xs text-on-surface-variant ml-1">+5 pts</span>
+</div>
+<button class="px-space-sm py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold transition-colors" onclick="updateCartCount(1)">
+                Re-order
+              </button>
+</div>
+</div>
+</div>
+<!-- Meal 4: Mediterranean Greek Salad -->
+<div class="rounded-3xl bg-surface-container-lowest overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+<div class="relative aspect-[4/3] w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Fresh Mediterranean Greek salad bowl with feta cheese chunks, kalamata olives, crisp cucumbers, cherry tomatoes, extra virgin olive oil vinaigrette, healthy cafeteria meal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA43inq5WMPCEavtQ-8bodbemfMEDxFvVxK4sCyBiX94bXZCJuUsnbKsZwp19qs4lXxWzym0bE6FuWjnE_r4lr0eNloqCyLqaCEVHjbbjivH9Pu7COAqsufsn9aHuF34zVVTKDhghXICxKeF-JYPWYbXe6xoDWtJpFrynBkFFIIBw7YxW7K7_PLPyMxBkaMU5HBcSFKXJmUl0CVoydJ8hx1P3cY45K8fHLrODzyf9zXwilNQZyxgWO"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Veg
+            </span>
+<span class="absolute top-3 right-3 px-space-xs py-0.5 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-secondary font-label-sm text-label-sm font-bold shadow-sm">
+              Healthy Pick
+            </span>
+<button class="absolute -bottom-4 right-4 w-10 h-10 rounded-full bg-primary-container text-on-primary shadow-lg hover:scale-110 active:scale-95 transition-all flex items-center justify-center" onclick="updateCartCount(1)">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="p-space-md pt-space-lg flex flex-col flex-grow justify-between">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Green Salad Bar</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">⚡ 2 min wait</span>
+</div>
+<h4 class="font-title-lg text-title-lg text-on-surface font-bold mt-1">Mediterranean Greek Salad</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">Cucumbers, cherry tomatoes, pitted olives, feta crumble, drizzled in cold-pressed herb dressing.</p>
+</div>
+<div class="pt-space-md flex items-center justify-between">
+<div>
+<span class="font-title-lg text-title-lg text-primary font-bold">₹95</span>
+<span class="text-xs text-on-surface-variant ml-1">+10 pts</span>
+</div>
+<button class="px-space-sm py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold transition-colors" onclick="updateCartCount(1)">
+                Re-order
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Campus Bite Floating Order Bar (Bottom Fixed Assistant) -->
+<div class="sticky bottom-6 z-40 max-w-xl mx-auto px-gutter-desktop w-full pointer-events-none">
+<div class="pointer-events-auto p-space-sm rounded-full bg-on-surface/90 backdrop-blur-xl text-surface shadow-2xl flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm pl-space-xs">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-xl">shopping_cart</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md font-bold text-surface" id="active-cart-count">3 items selected</span>
+<span class="text-xs text-surface-dim">•</span>
+<span class="font-label-md text-label-md text-secondary-fixed">₹200 total</span>
+</div>
+<span class="font-body-sm text-body-sm text-surface-dim text-xs">Ready in approx 8 mins at Counter A &amp; B</span>
+</div>
+</div>
+<button class="h-10 px-space-md rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md font-bold transition-all shadow-md flex items-center gap-1 shrink-0">
+<span>Review Tray</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<script>
+    function updateCartCount(delta) {
+      const cartLabel = document.getElementById('active-cart-count');
+      if (cartLabel) {
+        let current = parseInt(cartLabel.innerText) || 3;
+        current += delta;
+        cartLabel.innerText = current + ' items selected';
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] py-space-2xl mt-space-3xl"><div class="max-w-container-max mx-auto px-gutter-desktop flex flex-col md:flex-row justify-between items-center gap-space-lg"><div class="flex items-center gap-space-xs"><img alt="CampusBite Brand Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U9boxmFZO2SAPyVH-GmrUOvb7d3EqWNgjsNhHWMbL0k5Wsy2T_SNCL-DWcEdHNks86Uvaosm1iifWXWEC8Gm8J4dqj-lMp-aXI17iHFOevlDGZnhgujZusFOJFqO9kI2NKMNVYzwKzTgTMCG-PhYK_yD4R3O6nWGIj3ocpspI0pB2upkrryln-jRkAoK3ZqgtLfTQ85LPc8YaS9JJG0HFbF5lbzdnDoet_zsp1cPt5q2oixlSPJPtx2pQ"/><span class="font-headline-sm text-headline-sm text-primary">CampusBite</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 CampusBite Smart Cafeteria Technologies. Serving student speed &amp; healthy freshness.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#">Dietary Guide</a><a class="hover:text-primary transition-colors" href="#">Kiosk Status</a><a class="hover:text-primary transition-colors" href="#">Campus Support</a></div></div></footer></body></html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>CampusBite - Smart College Cafeteria</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-lowest": "#ffffff", "on-secondary-container": "#00714d", "surface-dim": "#d2d9f4", "surface-tint": "#b42907", "surface-bright": "#faf8ff", "on-secondary-fixed-variant": "#005236", "on-error-container": "#93000a", "on-tertiary-container": "#0e009e", "primary-fixed": "#ffdad2", "tertiary": "#494bd6", "on-secondary-fixed": "#002113", "on-secondary": "#ffffff", "on-surface": "#131b2e", "on-tertiary": "#ffffff", "surface-variant": "#dae2fd", "tertiary-container": "#8487ff", "secondary-fixed": "#6ffbbe", "surface-container": "#eaedff", "inverse-primary": "#ffb4a3", "error": "#ba1a1a", "surface-container-highest": "#dae2fd", "on-primary-container": "#5c0e00", "on-tertiary-fixed": "#07006c", "error-container": "#ffdad6", "on-background": "#131b2e", "surface-container-high": "#e2e7ff", "secondary": "#006c49", "surface-container-low": "#f2f3ff", "on-error": "#ffffff", "on-primary-fixed-variant": "#8b1a00", "on-primary-fixed": "#3d0600", "secondary-container": "#6cf8bb", "secondary-fixed-dim": "#4edea3", "on-surface-variant": "#5a413b", "inverse-on-surface": "#eef0ff", "tertiary-fixed-dim": "#c0c1ff", "inverse-surface": "#283044", "surface": "#faf8ff", "background": "#faf8ff", "on-tertiary-fixed-variant": "#2f2ebe", "primary-container": "#ff5e3a", "outline-variant": "#e3beb6", "on-primary": "#ffffff", "tertiary-fixed": "#e1e0ff", "primary": "#b42907", "outline": "#8e7069", "primary-fixed-dim": "#ffb4a3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "container-max": "80rem", "gutter-mobile": "1rem", "space-xl": "2rem", "space-2xl": "3rem", "space-3xl": "4rem", "space-xs": "0.5rem", "space-2xs": "0.25rem", "space-lg": "1.5rem", "space-sm": "0.75rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "headline-lg": [ "Outfit" ], "headline-md": [ "Outfit" ], "body-lg": [ "Plus Jakarta Sans" ], "body-sm": [ "Plus Jakarta Sans" ], "display-hero": [ "Outfit" ], "title-md": [ "Plus Jakarta Sans" ], "label-md": [ "Plus Jakarta Sans" ], "display-hero-mobile": [ "Outfit" ], "body-md": [ "Plus Jakarta Sans" ], "headline-sm": [ "Outfit" ], "headline-lg-mobile": [ "Outfit" ], "label-sm": [ "Plus Jakarta Sans" ], "title-lg": [ "Plus Jakarta Sans" ], "label-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-md": [ "24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" } ], "body-lg": [ "16px", { "lineHeight": "26px", "fontWeight": "400" } ], "body-sm": [ "12px", { "lineHeight": "18px", "fontWeight": "400" } ], "display-hero": [ "56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" } ], "title-md": [ "16px", { "lineHeight": "24px", "fontWeight": "600" } ], "label-md": [ "12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" } ], "display-hero-mobile": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "800" } ], "body-md": [ "14px", { "lineHeight": "22px", "fontWeight": "400" } ], "headline-sm": [ "20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "headline-lg-mobile": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "label-sm": [ "10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" } ], "title-lg": [ "18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" } ], "label-lg": [ "14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" } ] } } } };</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full bg-surface-container-low py-space-2xs px-gutter-desktop"><div class="max-w-container-max mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span class="inline-block w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-md text-label-md text-on-surface">🏛️ North Campus Central Hall</span><span class="text-outline">•</span><span class="text-secondary font-label-sm text-label-sm">Open</span><span class="text-outline">•</span><span class="text-primary font-label-sm text-label-sm font-bold">Busy (12 min wait)</span></div><div class="flex items-center gap-space-sm"><span class="text-on-surface-variant">Demo Environment Switcher:</span><a class="px-space-xs py-space-2xs rounded-full bg-surface-container-highest text-on-surface hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="home" href="#">Student View</a><a class="px-space-xs py-space-2xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="admin-dashboard" href="#">Admin Dashboard (/admin)</a><a class="px-space-xs py-space-2xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-sm text-label-sm" data-path="cafeteria-display" href="#">Cafeteria TV (/cafeteria-display)</a></div></div></div><div class="h-20 max-w-container-max mx-auto px-gutter-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-xs" data-path="home" href="#"><img alt="CampusBite Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U9boxmFZO2SAPyVH-GmrUOvb7d3EqWNgjsNhHWMbL0k5Wsy2T_SNCL-DWcEdHNks86Uvaosm1iifWXWEC8Gm8J4dqj-lMp-aXI17iHFOevlDGZnhgujZusFOJFqO9kI2NKMNVYzwKzTgTMCG-PhYK_yD4R3O6nWGIj3ocpspI0pB2upkrryln-jRkAoK3ZqgtLfTQ85LPc8YaS9JJG0HFbF5lbzdnDoet_zsp1cPt5q2oixlSPJPtx2pQ"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">CampusBite</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold rounded-full"><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="home" href="#">Home</a><a aria-current="page" class="px-space-sm py-space-xs transition-colors bg-primary-container text-on-primary font-bold rounded-full" data-path="menu" href="#">Menu</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="rewards-plus" href="#">Rewards &amp; Plus</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="live-leaderboard" href="#">Live Leaderboard</a><a class="px-space-sm py-space-xs rounded-full text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-lg text-label-lg" data-path="track-order" href="#">Track Order</a></nav></div><div class="flex items-center gap-space-sm"><button class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-all shadow-[0_1px_8px_rgba(0,0,0,0.04)] font-body-sm text-body-sm"><span class="material-symbols-outlined text-base">search</span><span>Search dishes, stalls...</span><kbd class="px-space-2xs py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-label-sm">⌘K</kbd></button><button class="relative p-space-xs rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors"><span class="material-symbols-outlined">shopping_bag</span><span class="absolute -top-1 -right-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm">3</span></button><div class="flex items-center gap-space-xs pl-space-xs pr-space-sm py-space-2xs rounded-full bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3GBETFU6Qm5PHbYnzErxOB3g3md0RI4V9IP4pC0LKc5KOP-KOo6ujq1JGGufw6HlGsoq4Pr643PvtmLx_7wPU6gR3LDjFuj9yXQlFi_t4gICedPLgWe0N3NnJ-X4V6t7KIzPGxu5xTCuW8AqlXMeGZVWwp70fRSYKNA9zjTq2vb8CP6AYeCHePCtD-l8ajnbcWgZZ4ogLo5MxMSmOe6M00vCRQtGl36xCgfSrsv-aBXo9XDr8DmcU"><div class="flex flex-col text-left"><div class="flex items-center gap-space-2xs"><span class="font-label-md text-label-md text-on-surface">Tushar G.</span><span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">⭐ Plus Member</span></div><div class="flex items-center gap-space-2xs text-on-surface-variant font-label-sm text-label-sm"><span>🪙 450 pts</span><span>•</span><span class="text-primary font-bold">Rank #2</span></div></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Orbs behind main content -->
+<div class="relative w-full max-w-container-max mx-auto px-gutter-desktop py-space-lg">
+<div class="absolute -top-16 left-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-96 right-10 w-80 h-80 bg-secondary-container/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Top Command & Filter Deck -->
+<section class="flex flex-col gap-space-md mb-space-xl">
+<!-- Search and Express Banner -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input with focus-ring styling -->
+<div class="relative flex-1 max-w-2xl">
+<div class="flex items-center w-full h-[52px] bg-surface-container-lowest rounded-full shadow-[0_4px_20px_-2px_rgba(15,23,42,0.06)] px-space-md transition-all focus-within:shadow-[0_4px_24px_rgba(255,94,58,0.2)]">
+<span class="material-symbols-outlined text-outline text-2xl mr-space-xs">search</span>
+<input class="w-full bg-transparent border-none outline-none font-body-md text-on-surface placeholder:text-on-surface-variant/70 text-body-md" id="menuSearchInput" placeholder="Search delicious burgers, cold brew beverages, protein thalis..." type="text">
+<button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors" title="Voice Search">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+<span class="text-outline-variant mx-1">|</span>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded-full text-primary font-label-sm text-label-sm hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">tune</span>
+<span class="hidden sm:inline">Filters</span>
+</button>
+</div>
+</div>
+<!-- Quick Status Pills / Express Pickup Banner -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<div class="flex items-center gap-space-xs px-space-sm py-2 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-on-surface">Kitchen Status:</span>
+<span class="font-label-md text-label-md text-secondary">Optimal (Queue: ~7m)</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-2 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span>Express Pass Active</span>
+</div>
+</div>
+</div>
+<!-- Station & Category Pills (Horizontal Scroll on mobile, flex on desktop) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 no-scrollbar text-nowrap">
+<button class="px-space-md py-2 rounded-full bg-on-surface text-surface-container-lowest font-label-md text-label-md shadow-md transition-all transform active:scale-95 flex items-center gap-1.5">
+<span>All Items</span>
+<span class="text-label-sm bg-surface-container-lowest/25 text-surface-container-lowest px-1.5 py-0.5 rounded-full">34</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🍳 Breakfast</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">8</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🍟 Snacks &amp; Sides</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">12</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🍱 Meals &amp; Thalis</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">6</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🥤 Cold Beverages</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">10</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🍔 Fast Food</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">14</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🥗 Healthy &amp; Greens</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">7</span>
+</button>
+<button class="px-space-md py-2 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all flex items-center gap-1.5">
+<span>🍰 Desserts</span>
+<span class="text-label-sm bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full">5</span>
+</button>
+</div>
+<!-- Quick Toggles Toolbar -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mr-1">Quick Filters:</span>
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#ECFDF5] text-[#065F46] font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span>Veg Only</span>
+</button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all">
+<span>🔥 Bestsellers</span>
+</button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md shadow-sm transition-all">
+<span class="material-symbols-outlined text-sm text-primary">schedule</span>
+<span>Prep under 10 min</span>
+</button>
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-50 to-amber-100 text-amber-900 font-label-md text-label-md shadow-[0_0_0_1px_rgba(245,158,11,0.25)] transition-all">
+<span class="material-symbols-outlined text-sm text-amber-600">stars</span>
+<span>Plus Member Deals</span>
+</button>
+</div>
+</section>
+<!-- Main Workspace Split: Menu Grid & Side Cart Drawer -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- 8-Column Food Catalogue -->
+<main class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- Section Header with Meta counters -->
+<div class="flex items-baseline justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-bold">Chef's Fresh Station</span>
+<h2 class="font-headline-md text-headline-md text-on-surface mt-0.5">Popular Student Cravings</h2>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Showing 6 curated campus hits</span>
+</div>
+<!-- Food Item Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card 1: Crispy Paneer Tikka Burger (Matching Inspiration Image) -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<!-- Media Area -->
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up gourmet crispy paneer tikka burger stacked with melted cheddar cheese slice, fresh mint chutney mayo, crisp lettuce, juicy sliced tomato on wooden rustic board served with seasoned golden crinkle cut french fries with soft warm cafe lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLMGRe8lxsbrCtFUGpLj2K13mI1oUTeZHhoBsTptxLkJTkGKwoZ0ORUISGm6nA-5Nfc9jB0VX2QbQvuRKBDVmrQ94Wr3dHA0fI6yz9RKpfHwYrozkspx8fE_04jZZn4VckteHPVzBaLr2Dzyq7zOk4vaEx_DIbv1lwjnOQZReiTMoX8dxjRx581hwpw9Fld9hW00erVVIGEzUHmau5u6mnVSQVJBjk1F-bLHh1vTSh8k-ql922x8lM">
+<!-- Veg Badge -->
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-[#ECFDF5]/90 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-label-sm text-label-sm text-[#065F46] font-bold">100% VEG</span>
+</div>
+<!-- Prep Time Pill -->
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>10 min</span>
+</div>
+<!-- Favorite Toggle -->
+<button class="absolute bottom-space-xs right-space-xs w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-primary flex items-center justify-center hover:bg-surface-container-lowest shadow-sm transition-transform active:scale-90">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<!-- Card Content Details -->
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">Gourmet Paneer Tikka Burger</h3>
+<div class="flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold">4.8</span>
+<span class="text-on-surface-variant font-normal">(128)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Crispy grilled paneer patty marinated in tandoori spices, mint slaw, melted cheddar in buttered brioche bun.
+                </p>
+</div>
+<!-- Price & Stepper Row -->
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant line-through">₹95</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹80</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">15% off</span>
+</div>
+</div>
+<!-- Quantity Stepper / Active Cart state -->
+<div class="flex items-center bg-surface-container-high rounded-full p-1 shadow-inner">
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-variant active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface px-2.5">2</span>
+<button class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Iced Hazelnut Cold Coffee (Matching Second Inspiration Image) -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<!-- Media Area -->
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Tall artisan glass of iced hazelnut cold coffee served with thick whipped cream swirl, chocolate drizzle, crushed roasted hazelnuts on a rustic wooden cafe table with bright blurred cafe window background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsoHpvscdjNVAbaTJj24Bk8_ojQbANepT2Qg8KZ5Xy-juw4LnyH4ERGryi0d97AswdQHWsIKicoGiBJ-tywxB-AnfLhpxEaqzyZEtWpTlNGGLI5npkjdM63frxTqZfEvpHUspGt74iMqj-wKJaAc__jyyUrNnCIH2MZLNuKyUcAzUjMTi9kqt9A75hCxEASTtUVN6MQLPGGSl3AkX7yXGv3x9L3O6s59wGoBeIF0t0UuVKSfPh2KXc">
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-[#ECFDF5]/90 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-label-sm text-label-sm text-[#065F46] font-bold">BEVERAGE</span>
+</div>
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>5 min</span>
+</div>
+<button class="absolute bottom-space-xs right-space-xs w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur-md text-on-surface-variant flex items-center justify-center hover:text-primary shadow-sm transition-transform active:scale-90">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<!-- Card Content Details -->
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">Iced Hazelnut Cold Coffee</h3>
+<div class="flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold">4.9</span>
+<span class="text-on-surface-variant font-normal">(310)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Double shot espresso blended with crushed ice, artisanal hazelnut syrup, topped with fresh whipped cream.
+                </p>
+</div>
+<!-- Price & Action -->
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Standard 350ml</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹60</span>
+</div>
+<!-- Active In-Cart Indicator -->
+<div class="flex items-center bg-surface-container-high rounded-full p-1 shadow-inner">
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface hover:bg-surface-variant active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="font-label-md text-label-md text-on-surface px-2.5">1</span>
+<button class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Loaded Cheesy Peri Peri Fries -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Generous portion of golden crispy crinkle cut fries generously smothered in hot melted yellow cheddar cheese sauce and fiery red peri peri spice dust in a matte ceramic bowl on modern campus cafe table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2x1ZFSkJt6JN8xsgfBX7kYzUxrCJ23xqVtvdJ56B0X3CSmxgS5koAfv-pmOCYvlA6AGNePCBOmqrn538G4iC9AQewcHzEwOvvRS2CiHiz_LJvIR8BRT_wwStJdJLIH8Fk4CmlnPx_O7gXaATbUoYEBMjSQfCgIF-NrXkjegmjY4iEJQoOnTMXUpn4ONn06tzd11SDj0PYv89o2oMox4MZ_exLZuzPDlTB20fzSAUtjTSe2PEtupxe">
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-[#ECFDF5]/90 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-label-sm text-label-sm text-[#065F46] font-bold">VEG</span>
+</div>
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>8 min</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">Loaded Cheesy Peri Peri Fries</h3>
+<div class="flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold">4.7</span>
+<span class="text-on-surface-variant font-normal">(92)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Crispy golden crinkle cut potatoes dusted in spicy African peri-peri paprika, drowned in molten creamy cheese sauce.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹90</span>
+<button class="flex items-center gap-1 px-space-sm py-2 rounded-full bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 4: High-Protein Paneer Rice Bowl -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Overhead shot of healthy high protein balanced bowl containing grilled cottage cheese paneer cubes, brown basmati rice, steamed edamame, spiced chickpeas, and avocado slices with sesame dressing in a modern ceramic dining bowl." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2eosWoxLMqJuh8uECwKyM1Y917V5DxAgF3EQjqRZXtvMx_tfZRKaqaWhQwR38qliv7L1CjrhgQF3rg6g3sgoTRMccv3EHX-y7_HXgSsy9cQmzBpaL-41nznwGColBnwIj0kcR-SaqKP4bPkk6sMiqYG_z6xAGB7HFBlxPBNRxEOcP8h47t91Pm9YT5cwsQ9txeHgCJANv9SJIie9TzXZKRImoANfYhImJGNOPgdzDtg2iEyWuTwba">
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-xs">fitness_center</span>
+<span>28g Protein</span>
+</div>
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>12 min</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">High-Protein Paneer Rice Bowl</h3>
+<div class="flex items-center gap-1 text-secondary bg-secondary-container/40 px-1.5 py-0.5 rounded font-label-sm text-label-sm font-bold">
+<span>Healthy</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Pan-seared spiced paneer steak over aromatic jeera rice, bell peppers, crunchy chickpea salad, and hung-curd garlic dressing.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹140</span>
+<button class="flex items-center gap-1 px-space-sm py-2 rounded-full bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 5: Belgian Dark Chocolate Brownie Shake -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Decadent thick Belgian chocolate milkshake topped with dark chocolate brownie chunks, rich cocoa powder dust, and ganache drizzle in a glass mason jar on cafe counter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMHtVkVyqXn1__lI9JJiRVoeAS3BS_Hb3_56kg49YD6WgPhYRLKQrKmgZVOKYjED0QtVXpZ1fL9PnvTc28XqzIPhkCAgWtYEQAW0CY3r7eFmbIDEVik2GgiKoG02xTzANWKvbvlNu362kuBkS53mO1Qvxn5wKiqJMaGncvT6yf3IvBN7bGuq-al8wUXFkXHNvtIQK_q-ZMKUGdBuJAHxPBcIRtaViSUPK-4Qv1BVnWZMGYOvfziNaB">
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-[#ECFDF5]/90 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-label-sm text-label-sm text-[#065F46] font-bold">DESSERT</span>
+</div>
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>6 min</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">Belgian Brownie Shake</h3>
+<div class="flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold">4.9</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Thick slow-churned dark Belgian cocoa milkshake infused with baked fudge brownie crumbs and chocolate ganache.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹110</span>
+<button class="flex items-center gap-1 px-space-sm py-2 rounded-full bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Card 6: Classic Veg Club Sandwich -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_20px_-2px_rgba(15,23,42,0.05)] hover:shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08),0_4px_12px_-2px_rgba(255,94,58,0.08)] transition-all duration-300">
+<div class="relative w-full aspect-[4/3] overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Triple layer toasted white bread club sandwich sliced diagonally into triangles showing cucumber, fresh tomato slices, processed cheese slice, and creamy herb mayonnaise filling on clean plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0g9IGnMAyMpQDc4CoSVMdCnArLL3JaxuvUE4ep3s0-OKV4hezK9y1MtwTjLZUJ3YJrczRwoP9MBi8CwQfrojkTvQXiFeZ9OecP-U34Mw3ze_X8nfCpIx5koc8-O3gsxTKFED20f6eBLpBFfZyLMT_Hu8UBtvOw279ZlXpCROF7Vr7tyaTsGlZ-NLPcNKWIJ-NAhMHtgKWR8CgYzuYY9nU4P1ovBZ64wV5uCY1JSMEKjxmQgYJdVW-">
+<div class="absolute top-space-xs left-space-xs px-2.5 py-1 rounded-full bg-[#ECFDF5]/90 backdrop-blur-md flex items-center gap-1.5 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-label-sm text-label-sm text-[#065F46] font-bold">VEG</span>
+</div>
+<div class="absolute top-space-xs right-space-xs px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-1 shadow-sm font-label-sm text-label-sm text-on-surface">
+<span class="material-symbols-outlined text-xs text-primary">timer</span>
+<span>7 min</span>
+</div>
+</div>
+<div class="flex flex-col flex-1 p-space-md justify-between">
+<div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-title-lg text-title-lg text-on-surface group-hover:text-primary transition-colors">Classic Veg Club Sandwich</h3>
+<div class="flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold">4.6</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mb-space-sm">
+                  Triple-layered grilled bread packed with english cucumber, juicy tomatoes, coleslaw, processed cheddar, and basil garlic mayo.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-space-xs mt-auto">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">₹75</span>
+<button class="flex items-center gap-1 px-space-sm py-2 rounded-full bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface font-label-md text-label-md transition-all shadow-sm active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>Add</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Campus Chef Specials / Dietary Note Banner -->
+<div class="flex flex-col sm:flex-row items-center gap-space-md p-space-lg rounded-2xl bg-surface-container-low shadow-sm mt-space-md">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-md">
+<span class="material-symbols-outlined text-2xl">eco</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-md text-title-md text-on-surface">Fresh Campus Kitchen Promise</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              All cottage cheese (paneer) is sourced daily from the university dairy farm. ZERO palm oil is used in our fryers.
+            </p>
+</div>
+<a class="font-label-md text-label-md text-primary hover:underline shrink-0" href="#">View Nutrition Ledger →</a>
+</div>
+</main>
+<!-- 4-Column Sticky Cart Summary Panel / Tray -->
+<aside class="xl:col-span-4 w-full sticky top-28">
+<div class="bg-surface-container-lowest rounded-3xl p-space-lg shadow-[0_12px_32px_-4px_rgba(15,23,42,0.08)] flex flex-col gap-space-md">
+<!-- Tray Header with Live Pickup Time -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-2xl">shopping_cart_checkout</span>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-surface">Your Tray</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 distinct items</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error text-label-sm font-label-sm underline transition-colors">Clear</button>
+</div>
+<!-- Pickup Station Slot Card -->
+<div class="flex items-center gap-space-xs p-space-xs bg-surface-container-low rounded-xl">
+<div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-lg">storefront</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pickup Destination:</span>
+<span class="font-title-md text-title-md text-on-surface truncate">Counter 2 • Approx 12:45 PM</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">Fast</span>
+</div>
+<!-- Active Tray Items List -->
+<div class="flex flex-col gap-space-sm my-space-xs">
+<!-- Item 1: Burger -->
+<div class="flex items-center justify-between gap-space-xs p-space-xs rounded-xl bg-surface hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-2 h-2 rounded-full bg-secondary shrink-0"></span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Paneer Tikka Burger</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">₹80 × 2</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<span class="font-title-md text-title-md text-on-surface font-bold">₹160</span>
+<div class="flex items-center bg-surface-container rounded-lg p-0.5">
+<button class="w-5 h-5 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-highest">-</button>
+<span class="px-1.5 font-label-sm text-label-sm">2</span>
+<button class="w-5 h-5 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-highest">+</button>
+</div>
+</div>
+</div>
+<!-- Item 2: Coffee -->
+<div class="flex items-center justify-between gap-space-xs p-space-xs rounded-xl bg-surface hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="w-2 h-2 rounded-full bg-secondary shrink-0"></span>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Hazelnut Cold Coffee</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">₹60 × 1</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<span class="font-title-md text-title-md text-on-surface font-bold">₹60</span>
+<div class="flex items-center bg-surface-container rounded-lg p-0.5">
+<button class="w-5 h-5 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-highest">-</button>
+<span class="px-1.5 font-label-sm text-label-sm">1</span>
+<button class="w-5 h-5 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-highest">+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Applied Coupon Pill -->
+<div class="flex items-center justify-between px-space-sm py-2 rounded-xl bg-secondary-container/30">
+<div class="flex items-center gap-space-2xs text-on-secondary-container">
+<span class="material-symbols-outlined text-base">verified</span>
+<span class="font-label-sm text-label-sm font-bold tracking-wide">COFFEELOVER</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-bold">-₹12 Applied</span>
+</div>
+<!-- Price Calculation Breakdown -->
+<div class="flex flex-col gap-1.5 pt-space-xs font-body-sm text-body-sm">
+<div class="flex justify-between text-on-surface-variant">
+<span>Item Subtotal</span>
+<span class="font-semibold text-on-surface">₹220</span>
+</div>
+<div class="flex justify-between text-secondary">
+<span class="flex items-center gap-1">
+<span>Cafeteria Plus Member Discount (10%)</span>
+<span class="material-symbols-outlined text-xs">info</span>
+</span>
+<span class="font-semibold">-₹22</span>
+</div>
+<div class="flex justify-between text-secondary">
+<span>Promo Coupon Discount</span>
+<span class="font-semibold">-₹12</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span>Campus Tech &amp; Packaging Fee</span>
+<span class="line-through text-outline-variant">₹15</span>
+</span>
+<span class="text-secondary font-bold">FREE (Plus Benefit)</span>
+</div>
+<!-- Grand Total Bar -->
+<div class="flex justify-between items-baseline pt-space-xs mt-space-xs border-none bg-surface-container-low p-space-sm rounded-xl">
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">To Pay: ₹186</span>
+<div class="font-label-sm text-label-sm text-secondary flex items-center gap-1 font-bold mt-0.5">
+<span class="material-symbols-outlined text-sm">savings</span>
+<span>You saved ₹34 on this meal!</span>
+</div>
+</div>
+<div class="text-right">
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">
+                  🪙 +28 pts
+                </span>
+</div>
+</div>
+</div>
+<!-- Big Primary Checkout Action -->
+<button class="w-full h-14 rounded-full bg-primary-container hover:bg-primary text-on-primary font-headline-sm text-title-lg flex items-center justify-between px-space-lg shadow-[0_8px_20px_rgba(255,94,58,0.35)] hover:shadow-[0_12px_28px_rgba(255,94,58,0.45)] transition-all transform active:scale-95 group">
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm opacity-90 leading-tight">Total Payable</span>
+<span class="font-bold text-lg leading-tight">₹186.00</span>
+</div>
+<div class="flex items-center gap-1 font-bold">
+<span>Pay &amp; Pickup</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</button>
+<!-- Security & Razorpay Badge -->
+<div class="flex items-center justify-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm pt-1">
+<span class="material-symbols-outlined text-sm text-secondary">verified_user</span>
+<span>Secured with Razorpay Campus UPI &amp; Student ID Card</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] py-space-2xl mt-space-3xl"><div class="max-w-container-max mx-auto px-gutter-desktop flex flex-col md:flex-row justify-between items-center gap-space-lg"><div class="flex items-center gap-space-xs"><img alt="CampusBite Brand Logo" class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1U9boxmFZO2SAPyVH-GmrUOvb7d3EqWNgjsNhHWMbL0k5Wsy2T_SNCL-DWcEdHNks86Uvaosm1iifWXWEC8Gm8J4dqj-lMp-aXI17iHFOevlDGZnhgujZusFOJFqO9kI2NKMNVYzwKzTgTMCG-PhYK_yD4R3O6nWGIj3ocpspI0pB2upkrryln-jRkAoK3ZqgtLfTQ85LPc8YaS9JJG0HFbF5lbzdnDoet_zsp1cPt5q2oixlSPJPtx2pQ"><span class="font-headline-sm text-headline-sm text-primary">CampusBite</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 CampusBite Smart Cafeteria Technologies. Serving student speed &amp; healthy freshness.</p><div class="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#">Dietary Guide</a><a class="hover:text-primary transition-colors" href="#">Kiosk Status</a><a class="hover:text-primary transition-colors" href="#">Campus Support</a></div></div></footer></body></html>
