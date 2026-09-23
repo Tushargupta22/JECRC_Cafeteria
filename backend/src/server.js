@@ -42,4 +42,10 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Export app for Vercel Serverless deployment and testing
+export default app;
+
+// In standalone / local environment, start HTTP listener
+if (!process.env.VERCEL) {
+  startServer();
+}

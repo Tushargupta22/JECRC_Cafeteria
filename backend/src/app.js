@@ -13,6 +13,9 @@ import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
+import { connectDB } from './config/db.js';
+import Food from './models/Food.js';
+import { seedDatabase } from './scripts/seed.js';
 
 dotenv.config();
 
@@ -46,15 +49,45 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static uploads
+// Serve static uploads (with read-only filesystem guard for serverless)
 const uploadsDir = path.resolve('./public/uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (e) {
+  // Read-only filesystem in serverless environments
 }
 app.use('/uploads', express.static(uploadsDir));
 
-// HTTP Request Logger
-if (process.env.NODE_ENV !== 'test') {
+let isSeedChecked = false;
+async function ensureSeed() {
+  if (isSeedChecked) return;
+  try {
+    const foodCount = await Food.countDocuments();
+    if (foodCount === 0) {
+      console.log('[Database] Menu is empty. Initializing cafeteria food items...');
+      await seedDatabase();
+    }
+    isSeedChecked = true;
+  } catch (err) {
+    console.error('[Seed Check Error]:', err.message);
+  }
+}
+
+// Auto-connect MongoDB for incoming requests (works seamlessly in serverless and long-running servers)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    await ensureSeed();
+  } catch (err) {
+    console.error('[DB Connection Middleware Error]:', err.message);
+  }
+  next();
+});
+
+// HTTP Request Logger (bypassed in Vercel serverless to prevent socket inspection errors)
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.use(morgan('dev'));
 }
 
