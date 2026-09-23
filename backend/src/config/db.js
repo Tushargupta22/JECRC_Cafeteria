@@ -16,7 +16,8 @@ export const connectDB = async () => {
   try {
     if (uriFromEnv && uriFromEnv !== 'memory') {
       try {
-        console.log(`[DB] Attempting connection to MongoDB at: ${uriFromEnv}`);
+        const maskedUri = uriFromEnv.replace(/\/\/[^:]+:[^@]+@/, '//***:***@');
+        console.log(`[DB] Attempting connection to MongoDB at: ${maskedUri}`);
         await mongoose.connect(uriFromEnv);
         console.log(`[DB] Connected to MongoDB database: ${mongoose.connection.name}`);
         return;

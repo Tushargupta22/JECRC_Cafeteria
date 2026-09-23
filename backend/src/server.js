@@ -1,6 +1,8 @@
+import express from 'express';
 import app from './app.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import Food from './models/Food.js';
+
 import { seedDatabase } from './scripts/seed.js';
 
 const PORT = process.env.PORT || 5000;
