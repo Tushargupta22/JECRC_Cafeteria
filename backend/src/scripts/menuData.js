@@ -62,7 +62,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/stuffed-potato-grilled-sandwich.jpg'
+    image: 'http://localhost:5000/uploads/stuffed-potato-grilled-sandwich.jpg'
   },
   {
     name: 'Chinese Sandwich',
@@ -81,7 +81,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 30,
     isAvailable: true,
-    image: '/uploads/chinese-sandwich.jpg'
+    image: 'http://localhost:5000/uploads/chinese-sandwich.jpg'
   },
   {
     name: 'Cheese Grilled Sandwich',
@@ -120,7 +120,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/bombay-veg-sandwich.jpg'
+    image: 'http://localhost:5000/uploads/bombay-veg-sandwich.jpg'
   },
   {
     name: 'Paneer Sandwich',
@@ -139,7 +139,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 40,
     isAvailable: true,
-    image: '/uploads/paneer-sandwich.jpg'
+    image: 'http://localhost:5000/uploads/paneer-sandwich.jpg'
   },
   {
     name: 'Tandoori Paneer Sandwich',
@@ -178,7 +178,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 30,
     isAvailable: true,
-    image: '/uploads/cheese-garlic-bread-3-pcs.jpg'
+    image: 'http://localhost:5000/uploads/cheese-garlic-bread-3-pcs.jpg'
   },
   {
     name: 'Vegetables Cheese Garlic Bread (3 pcs)',
@@ -239,7 +239,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 45,
     isAvailable: true,
-    image: '/uploads/classic-veg-cheese-burger.jpg'
+    image: 'http://localhost:5000/uploads/classic-veg-cheese-burger.jpg'
   },
   {
     name: 'Aachari Paneer Burger',
@@ -418,7 +418,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/pasta-red-sauce.jpg'
+    image: 'http://localhost:5000/uploads/pasta-red-sauce.jpg'
   },
   {
     name: 'Pasta White Sauce',
@@ -498,7 +498,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 45,
     isAvailable: true,
-    image: '/uploads/veg-hakka-noodles.jpg'
+    image: 'http://localhost:5000/uploads/veg-hakka-noodles.jpg'
   },
   {
     name: 'Veg Schezwan Noodles',
@@ -517,7 +517,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/veg-schezwan-noodles.jpg'
+    image: 'http://localhost:5000/uploads/veg-schezwan-noodles.jpg'
   },
   {
     name: 'Veg Fried Rice',
@@ -574,7 +574,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 45,
     isAvailable: true,
-    image: '/uploads/honey-chilli-potato.jpg'
+    image: 'http://localhost:5000/uploads/honey-chilli-potato.jpg'
   },
   {
     name: 'Veg Manchurian Dry',
@@ -593,7 +593,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 40,
     isAvailable: true,
-    image: '/uploads/veg-manchurian-dry.jpg'
+    image: 'http://localhost:5000/uploads/veg-manchurian-dry.jpg'
   },
   {
     name: 'Veg Manchurian Gravy',
@@ -650,7 +650,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 30,
     isAvailable: true,
-    image: '/uploads/chilli-paneer-gravy.jpg'
+    image: 'http://localhost:5000/uploads/chilli-paneer-gravy.jpg'
   },
   {
     name: 'Steam Momos (8 pcs)',
@@ -749,7 +749,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 40,
     isAvailable: true,
-    image: '/uploads/veggie-roll.jpg'
+    image: 'http://localhost:5000/uploads/veggie-roll.jpg'
   },
   {
     name: 'Paneer Roll',
@@ -768,7 +768,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 45,
     isAvailable: true,
-    image: '/uploads/paneer-roll.jpg'
+    image: 'http://localhost:5000/uploads/paneer-roll.jpg'
   },
   {
     name: 'Spring Roll',
@@ -787,7 +787,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/spring-roll.jpg'
+    image: 'http://localhost:5000/uploads/spring-roll.jpg'
   },
 
   // ==========================================
@@ -810,7 +810,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 60,
     isAvailable: true,
-    image: '/uploads/classic-plain-maggi.jpg'
+    image: 'http://localhost:5000/uploads/classic-plain-maggi.jpg'
   },
   {
     name: 'Classic Veg Maggi',
@@ -829,7 +829,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 50,
     isAvailable: true,
-    image: '/uploads/classic-veg-maggi.jpg'
+    image: 'http://localhost:5000/uploads/classic-veg-maggi.jpg'
   },
   {
     name: 'Classic Cheese Maggi',
@@ -848,7 +848,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: true,
     stockCount: 45,
     isAvailable: true,
-    image: '/uploads/classic-cheese-maggi.jpg'
+    image: 'http://localhost:5000/uploads/classic-cheese-maggi.jpg'
   },
   {
     name: 'Double Masala Maggi',
@@ -909,7 +909,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: false,
     stockCount: 50,
     isAvailable: true,
-    image: '/uploads/french-fries.jpg'
+    image: 'http://localhost:5000/uploads/french-fries.jpg'
   },
   {
     name: 'Masala Fries',
@@ -966,7 +966,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: true,
     stockCount: 40,
     isAvailable: true,
-    image: '/uploads/cheese-fries.jpg'
+    image: 'http://localhost:5000/uploads/cheese-fries.jpg'
   },
 
   // ==========================================
@@ -1268,7 +1268,7 @@ export const completeCafeteriaMenu = [
     isChefSpecial: true,
     stockCount: 35,
     isAvailable: true,
-    image: '/uploads/special-executive-veg-thali.jpg'
+    image: 'http://localhost:5000/uploads/special-executive-veg-thali.jpg'
   },
   {
     name: 'High-Protein Paneer Rice Bowl',

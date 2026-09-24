@@ -1,5 +1,5 @@
-import app from './app.js';
-import { connectDB } from './config/db.js';
+import app from '../backend/src/app.js';
+import { connectDB } from '../backend/src/config/db.js';
 
 let isConnected = false;
 
@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     }
     return app(req, res);
   } catch (error) {
-    console.error('[Vercel Backend Src Handler] Error:', error);
+    console.error('[Vercel API Handler] Error:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal Server Error'

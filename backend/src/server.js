@@ -1,8 +1,6 @@
-import express from 'express';
 import app from './app.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import Food from './models/Food.js';
-
 import { seedDatabase } from './scripts/seed.js';
 
 const PORT = process.env.PORT || 5000;
@@ -44,10 +42,4 @@ const startServer = async () => {
   }
 };
 
-// Export app for Vercel Serverless deployment and testing
-export default app;
-
-// In standalone / local environment, start HTTP listener
-if (!process.env.VERCEL) {
-  startServer();
-}
+startServer();

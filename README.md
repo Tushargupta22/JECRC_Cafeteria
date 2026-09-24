@@ -47,17 +47,14 @@ npm run dev
 
 ---
 
-## 🔐 Login Credentials (लॉगिन डिटेल्स)
+## 🔐 Authentication & Access Security (प्रमाणीकरण एवं सुरक्षा)
 
-Aap in pre-configured accounts se direct login karke test kar sakte hain:
-
-| Role | Email | Password | Features / Details |
-| :--- | :--- | :--- | :--- |
-| 👑 **Executive Admin** | `admin@cafetarea.edu` | `Admin@12345` | Kitchen Kiosk, Order Status Management, Menu CRUD, Live Analytics |
-| 🎓 **Student (Tushar)** | `tushar@jecrc.edu` | `Student@12345` | B.Tech CS, Monthly Plus Member, 450 Loyalty Coins, Past Orders |
-| 🎓 **Student (Rahul)** | `rahul@jecrc.edu` | `Student@12345` | Electronics Engg, Weekly Snack Pass, 340 Loyalty Coins |
-| 🎓 **Student (Aman)** | `aman@jecrc.edu` | `Student@12345` | MBA Dept, 280 Loyalty Coins |
-| 🎓 **Student (Priya)** | `priya@jecrc.edu` | `Student@12345` | Design School, 210 Loyalty Coins |
+All accounts are created securely through self-service registration:
+- **🎓 Student Accounts**: Register directly with campus email and password from the Student Portal.
+- **👑 Admin Portal**: Registering an authorized administrator account requires entering the authorized **Admin Access Key**, which is verified exclusively on the server (`ADMIN_ACCESS_KEY`).
+- In Vercel or production hosting, set the secret environment variable:
+  `ADMIN_ACCESS_KEY=<Your_Secret_Admin_Key>`
+- Unauthorized users or students cannot access administrative dashboards or APIs.
 
 ---
 

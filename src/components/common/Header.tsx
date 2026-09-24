@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useStudent } from '../../context/StudentContext';
-import logoSvg from '../../assets/logo.svg';
 
 interface HeaderProps {
   onOpenSearch?: () => void;
@@ -81,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
         <div className="flex items-center gap-space-lg">
           <Link to="/" className="flex items-center gap-space-xs group">
             <img
-              src={logoSvg}
+              src="/src/assets/logo.svg"
               alt="JECRC Cafeteria Brand Logo"
               className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
             />

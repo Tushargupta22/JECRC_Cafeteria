@@ -13,9 +13,6 @@ import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
-import { connectDB } from './config/db.js';
-import Food from './models/Food.js';
-import { seedDatabase } from './scripts/seed.js';
 
 dotenv.config();
 
@@ -49,66 +46,46 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static uploads (with read-only filesystem guard for serverless)
+// Serve static uploads
 const uploadsDir = path.resolve('./public/uploads');
-try {
-  if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-  }
-} catch (e) {
-  // Read-only filesystem in serverless environments
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
 app.use('/uploads', express.static(uploadsDir));
 
-let isSeedChecked = false;
-async function ensureSeed() {
-  if (isSeedChecked) return;
-  try {
-    const foodCount = await Food.countDocuments();
-    if (foodCount === 0) {
-      console.log('[Database] Menu is empty. Initializing cafeteria food items...');
-      await seedDatabase();
-    }
-    isSeedChecked = true;
-  } catch (err) {
-    console.error('[Seed Check Error]:', err.message);
-  }
-}
-
-// Auto-connect MongoDB for incoming requests (works seamlessly in serverless and long-running servers)
-app.use(async (req, res, next) => {
-  try {
-    await connectDB();
-    await ensureSeed();
-  } catch (err) {
-    console.error('[DB Connection Middleware Error]:', err.message);
-  }
-  next();
-});
-
-// HTTP Request Logger (bypassed in Vercel serverless to prevent socket inspection errors)
-if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+// HTTP Request Logger
+if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-// Health Check Endpoint
-app.get('/api/health', (req, res) => {
+// Health Check Endpoint (Safe environment check: returns only boolean, never reveals key)
+const healthHandler = (req, res) => {
   res.status(200).json({
     status: 'healthy',
     service: 'JECRC Cafeteria Backend API',
     environment: process.env.NODE_ENV || 'development',
+    adminKeyConfigured: Boolean(process.env.ADMIN_ACCESS_KEY),
     timestamp: new Date()
   });
-});
+};
+app.get('/api/health', healthHandler);
+app.get('/health', healthHandler);
 
-// Mount Domain API Routes
+// Mount Domain API Routes (both /api/* and serverless root paths)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api/foods', foodRoutes);
+app.use('/foods', foodRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/orders', orderRoutes);
 app.use('/api/offers', offerRoutes);
+app.use('/offers', offerRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/subscriptions', subscriptionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/leaderboard', leaderboardRoutes);
 app.use('/api/admin/analytics', analyticsRoutes);
+app.use('/admin/analytics', analyticsRoutes);
 
 // 404 & Centralized Error Handlers
 app.use(notFoundHandler);

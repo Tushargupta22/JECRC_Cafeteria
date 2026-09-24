@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useStudent } from '../context/StudentContext';
-import logoSvg from '../assets/logo.svg';
 
 export const AdminLayout: React.FC = () => {
   const location = useLocation();
@@ -121,7 +120,7 @@ export const AdminLayout: React.FC = () => {
       <aside className="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col pt-space-lg pb-space-lg border-r border-surface-container/60">
         <div className="px-space-lg mb-space-lg flex items-center gap-space-xs">
           <img
-            src={logoSvg}
+            src="/src/assets/logo.svg"
             alt="JECRC Cafeteria Brand Logo"
             className="h-7 w-auto object-contain"
           />

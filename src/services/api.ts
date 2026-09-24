@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
+const isBrowser = typeof window !== 'undefined';
+const isLocalhost = isBrowser && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const API_BASE_URL = import.meta.env.VITE_API_URL || (!isLocalhost && isBrowser ? '/api' : 'http://localhost:5000/api');
 
 export class ApiError extends Error {
   status: number;
@@ -245,7 +247,7 @@ export const authApi = {
       body: JSON.stringify(payload)
     }),
 
-  login: (payload: { email: string; password: string }) =>
+  login: (payload: { email: string; password: string; portal?: 'student' | 'admin' }) =>
     request<{ message: string; user: BackendUser; token: string }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(payload)

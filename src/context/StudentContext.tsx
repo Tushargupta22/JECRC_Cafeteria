@@ -36,7 +36,7 @@ interface StudentContextType {
   closeAuthModal: () => void;
   openEditProfileModal: () => void;
   closeEditProfileModal: () => void;
-  login: (email: string, password: string) => Promise<BackendUser>;
+  login: (email: string, password: string, portal?: 'student' | 'admin') => Promise<BackendUser>;
   register: (payload: {
     name: string;
     email: string;
@@ -162,8 +162,8 @@ export const StudentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setIsAuthModalOpen(false);
   };
 
-  const login = async (email: string, password: string): Promise<BackendUser> => {
-    const res = await authApi.login({ email, password });
+  const login = async (email: string, password: string, portal?: 'student' | 'admin'): Promise<BackendUser> => {
+    const res = await authApi.login({ email, password, portal });
     if (res.token) {
       setAuthToken(res.token);
       setTokenState(res.token);

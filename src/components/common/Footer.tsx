@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoSvg from '../../assets/logo.svg';
 
 export const Footer: React.FC = () => {
   return (
@@ -8,7 +7,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-container-max mx-auto px-gutter-desktop flex flex-col md:flex-row justify-between items-center gap-space-lg">
         <div className="flex items-center gap-space-xs">
           <img
-            src={logoSvg}
+            src="/src/assets/logo.svg"
             alt="JECRC Cafeteria Brand Logo"
             className="h-7 w-auto object-contain"
           />

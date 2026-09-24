@@ -41,15 +41,23 @@ export const register = async (req, res, next) => {
       });
     }
 
-    // Role validation: Admin role requires verified server-side Admin Access Code
+    // Role validation: Admin role requires verified server-side Admin Access Key
     let assignedRole = 'student';
-    const VALID_ADMIN_CODE = process.env.ADMIN_ACCESS_CODE || 'JECRC_ADMIN_2026';
 
     if (role === 'admin') {
-      if (!adminAccessCode || adminAccessCode.trim() !== VALID_ADMIN_CODE) {
-        return res.status(403).json({
+      const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_KEY;
+
+      if (!ADMIN_ACCESS_CODE) {
+        return res.status(500).json({
           success: false,
-          message: 'Invalid or missing Admin Access Code. Admin registration is unauthorized.'
+          message: 'Admin access configuration is not available.'
+        });
+      }
+
+      if (!adminAccessCode || adminAccessCode.trim() !== ADMIN_ACCESS_CODE.trim()) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid admin credentials.'
         });
       }
       assignedRole = 'admin';
@@ -94,7 +102,7 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, portal } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -110,7 +118,7 @@ export const login = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: portal === 'admin' ? 'Invalid admin credentials.' : 'Invalid email or password'
       });
     }
 
@@ -118,7 +126,15 @@ export const login = async (req, res, next) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: portal === 'admin' ? 'Invalid admin credentials.' : 'Invalid email or password'
+      });
+    }
+
+    // Role check: If logging into admin portal, ensure user has admin role
+    if (portal === 'admin' && user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Invalid admin credentials.'
       });
     }
 

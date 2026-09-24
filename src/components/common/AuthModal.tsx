@@ -76,7 +76,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
       }
 
       if (mode === 'login') {
-        const user = await login(email, password);
+        const user = await login(
+          email,
+          password,
+          portal
+        );
 
         // Role-based redirection from backend verified role
         if (user.role === 'admin') {
@@ -84,8 +88,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
         } else {
           // If login from admin portal with student credentials
           if (portal === 'admin') {
-            navigate('/');
+            setError('Invalid admin credentials.');
+            return;
           }
+          navigate('/');
         }
         onClose();
       } else {
@@ -112,7 +118,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
         onClose();
       }
     } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please verify your credentials.');
+      if (portal === 'admin' && (err.status === 401 || err.status === 403 || err.message?.toLowerCase().includes('admin') || err.message?.toLowerCase().includes('unauthorized') || err.message?.toLowerCase().includes('invalid'))) {
+        setError('Invalid admin credentials.');
+      } else {
+        setError(err.message || 'Authentication failed. Please verify your credentials.');
+      }
     } finally {
       setLoading(false);
     }
@@ -156,7 +166,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
                 ? 'Sign in to access kitchen commands, stock, and orders'
                 : 'Sign in to order, track live preparation, and earn rewards'
               : portal === 'admin'
-              ? 'Register authorized management account with administrative access code'
+              ? 'Register authorized management account with administrative access key'
               : 'Create your cafeteria account to skip queues & pre-order meals'}
           </p>
         </div>
@@ -303,26 +313,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
             </div>
           )}
 
-          {/* Admin Access Code / Invitation Code for Admin Signup */}
+          {/* Admin Access Code for Admin Registration */}
           {mode === 'register' && portal === 'admin' && (
             <div>
-              <div className="flex justify-between items-center mb-1">
-                <label className="block font-label-sm text-label-sm text-on-surface font-medium">
-                  Admin Access / Invitation Code
-                </label>
-                <span className="text-[10px] text-primary font-bold uppercase">Required</span>
-              </div>
+              <label className="block font-label-sm text-label-sm text-on-surface font-medium mb-1">
+                Admin Access Code
+              </label>
               <input
                 type="password"
                 required
+                autoComplete="off"
                 value={adminAccessCode}
                 onChange={e => setAdminAccessCode(e.target.value)}
-                placeholder="Enter authorized manager key"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-low border border-primary/40 focus:border-primary focus:outline-none font-body-md text-body-md text-on-surface transition-colors"
+                placeholder="Enter admin access code"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-low border border-surface-container focus:border-primary focus:outline-none font-body-md text-body-md text-on-surface transition-colors"
               />
-              <p className="text-[11px] text-on-surface-variant mt-1">
-                Admin accounts require verification code (Default: <code className="text-primary font-bold">JECRC_ADMIN_2026</code>)
-              </p>
             </div>
           )}
 

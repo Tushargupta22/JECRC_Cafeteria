@@ -17,21 +17,6 @@ export const seedDatabase = async () => {
     await connectDB();
     console.log('\n[Seed] Synchronizing cafeteria menu and accounts idempotently...');
 
-    // 0. CREATE / ENSURE ADMIN ACCOUNT
-    const existingAdmin = await User.findOne({ email: 'admin@cafetarea.edu' });
-    if (!existingAdmin) {
-      const adminPasswordHash = await bcrypt.hash('Admin@12345', 10);
-      await User.create({
-        name: 'Campus Cafeteria Admin',
-        email: 'admin@cafetarea.edu',
-        passwordHash: adminPasswordHash,
-        role: 'admin',
-        department: 'Campus Administration'
-      });
-      console.log('[Seed] Admin account ready (admin@cafetarea.edu).');
-    } else {
-      console.log('[Seed] Admin account verified (admin@cafetarea.edu).');
-    }
 
     // 1. UPSERT FOOD ITEMS (Idempotent by slug or name)
     console.log(`[Seed] Processing ${completeCafeteriaMenu.length} cafeteria menu items...`);
