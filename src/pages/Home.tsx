@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useStudent } from '../context/StudentContext';
 import { useAdminKitchen } from '../context/AdminKitchenContext';
 import { COUNTERS_DATA, INITIAL_MENU_ITEMS, MenuItem } from '../data/mockData';
-import { offerApi, leaderboardApi, BackendOffer, LeaderboardEntry } from '../services/api';
+import { offerApi, leaderboardApi, dealsApi, BackendOffer, LeaderboardEntry, Deal, HighlightSettings } from '../services/api';
 
 export const Home: React.FC = () => {
   const { itemCount, total, addToCart, setIsCartDrawerOpen, applyCoupon } = useCart();
@@ -18,6 +18,8 @@ export const Home: React.FC = () => {
   const [offerError, setOfferError] = useState<boolean>(false);
   const [topUsers, setTopUsers] = useState<LeaderboardEntry[]>([]);
   const [popularDealItems, setPopularDealItems] = useState<MenuItem[]>([]);
+  const [ownerHighlights, setOwnerHighlights] = useState<Deal[]>([]);
+  const [highlightSettings, setHighlightSettings] = useState<HighlightSettings | null>(null);
 
   useEffect(() => {
     const fetchData = () => {
@@ -63,6 +65,16 @@ export const Home: React.FC = () => {
       }).catch(() => {
         setTopUsers([]);
       });
+
+      // Today's Highlights from Owner Portal
+      dealsApi.getTodaysHighlights().then(res => {
+        if (res && res.deals) {
+          setOwnerHighlights(res.deals);
+        }
+        if (res && res.settings) {
+          setHighlightSettings(res.settings);
+        }
+      }).catch(() => {});
     };
 
     // Initial fetch
@@ -192,8 +204,30 @@ export const Home: React.FC = () => {
     addToCart(item, 1);
   };
 
-  // Handle Popular Today Deal - Add combo items (dynamically personalized)
+  // Handle Popular Today Deal - Add combo items (dynamically personalized or owner highlight)
   const handlePopularDealAdd = () => {
+    if (ownerHighlights.length > 0) {
+      const topDeal = ownerHighlights[0];
+      addToCart({
+        id: topDeal._id,
+        name: topDeal.title,
+        price: topDeal.discountedPrice,
+        originalPrice: topDeal.originalPrice,
+        description: topDeal.description || 'Special Chef Highlight Deal',
+        image: topDeal.image || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400',
+        category: 'Highlights',
+        isAvailable: true,
+        isVeg: true,
+        rating: 4.9,
+        reviewsCount: 42,
+        calories: 450,
+        prepTimeMinutes: 10,
+        tags: ['Highlight', `${topDeal.discountPercentage}% OFF`],
+        counter: 'Main Station'
+      } as any, 1);
+      return;
+    }
+
     // Use personalized deal items if available, otherwise fallback to default
     const dealItems = popularDealItems.length > 0 ? popularDealItems : [sourceItems[1], sourceItems.find(item => item.category.toLowerCase().includes('beverage'))].filter(Boolean);
     
@@ -418,7 +452,19 @@ export const Home: React.FC = () => {
                   alt="Gourmet double smash burger with seasoned fries and cold hazelnut milkshake"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent"></div>
+                <div
+                  className={`absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent transition-opacity duration-300 ${
+                    highlightSettings && !highlightSettings.overlayEnabled
+                      ? 'opacity-0'
+                      : highlightSettings?.overlayIntensity === 'light'
+                      ? 'opacity-40'
+                      : highlightSettings?.overlayIntensity === 'dark'
+                      ? 'opacity-90'
+                      : highlightSettings?.overlayIntensity === 'strong'
+                      ? 'opacity-100'
+                      : 'opacity-80'
+                  }`}
+                ></div>
 
                 {/* Overlaid chips */}
                 <div className="top-4 left-4 z-20 absolute flex items-center gap-space-xs bg-surface-container-lowest/90 shadow-md backdrop-blur-md px-space-sm py-space-2xs rounded-full">
@@ -513,21 +559,25 @@ export const Home: React.FC = () => {
         <div className="mx-auto px-gutter-desktop max-w-container-max">
           <div className="flex md:flex-row flex-col justify-between md:items-end gap-space-xs mb-space-lg">
             <div>
-              <span className="font-label-md font-bold text-label-md text-primary uppercase tracking-widest">Curated Campus Pulse</span>
-              <h3 className="font-headline-lg text-headline-lg text-on-surface">Today's Highlights</h3>
+              <span className="font-label-md font-bold text-label-md text-primary uppercase tracking-widest">
+                {highlightSettings?.badgeText || 'Curated Campus Pulse'}
+              </span>
+              <h3 className="font-headline-lg text-headline-lg text-on-surface">
+                {highlightSettings?.heading || "Today's Highlights"}
+              </h3>
             </div>
             <p className="max-w-sm font-body-md text-body-md text-on-surface-variant">
-              Special offers, trending culinary items, and the campus leaderboard updated live every 60s.
+              {highlightSettings?.subtitle || 'Special offers, trending culinary items, and the campus leaderboard updated live every 60s.'}
             </p>
           </div>
 
           <div className="gap-space-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-            {/* Card 1: Popular Today */}
+            {/* Card 1: Popular Today / Owner Highlight Deal */}
             <div className="group flex flex-col justify-between bg-surface-container-lowest shadow-sm hover:shadow-xl p-space-md border border-surface-container/60 rounded-3xl transition-all duration-300">
               <div>
                 <div className="flex justify-between items-center mb-space-sm">
                   <span className="bg-primary-fixed flex items-center gap-1 px-space-xs py-0.5 rounded-full font-label-sm font-bold text-label-sm text-primary">
-                    🔥 Popular Today
+                    🔥 {ownerHighlights.length > 0 ? (highlightSettings?.badgeText || 'Today’s Highlight') : 'Popular Today'}
                   </span>
                   <span className="flex items-center gap-0.5 font-label-sm text-label-sm text-on-surface-variant">
                     <span className="text-secondary text-xs material-symbols-outlined">sync</span> Live
@@ -535,35 +585,43 @@ export const Home: React.FC = () => {
                 </div>
                 <div className="relative mb-space-sm rounded-2xl w-full h-36 overflow-hidden">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF9JFlz8t5HmXqBACQMPWqe3OD_IgG9pPYqIBQjppht1KQyrheOuhSZHagXv9j3cYRoaSWfgcWJVhqEiJoAbytsAgWgfLyOGEVXCdaAfgOZHt2dujlhFOojyCysP4dfsaeMUnCvOmJ_yL8heBcj_m60z7e_IQCAtq41nmUc9_2iIkVXI_grVWzLL-JDWWpsCEKLt5GQ-QrCs4V9uTRDqdiYzA0olYquIz6L38ZaTSUyA8USM3j9tAo"
-                    alt="Smash burger and chilled hazelnut cold brew"
+                    src={
+                      ownerHighlights[0]?.image ||
+                      'https://lh3.googleusercontent.com/aida-public/AB6AXuCF9JFlz8t5HmXqBACQMPWqe3OD_IgG9pPYqIBQjppht1KQyrheOuhSZHagXv9j3cYRoaSWfgcWJVhqEiJoAbytsAgWgfLyOGEVXCdaAfgOZHt2dujlhFOojyCysP4dfsaeMUnCvOmJ_yL8heBcj_m60z7e_IQCAtq41nmUc9_2iIkVXI_grVWzLL-JDWWpsCEKLt5GQ-QrCs4V9uTRDqdiYzA0olYquIz6L38ZaTSUyA8USM3j9tAo'
+                    }
+                    alt={ownerHighlights[0]?.title || 'Smash burger combo'}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="bottom-2 left-2 absolute flex items-center gap-1 bg-on-surface/75 backdrop-blur-sm px-space-xs py-0.5 rounded-md font-medium text-[11px] text-surface">
-                    <span className="bg-secondary-fixed rounded-full w-1.5 h-1.5"></span> Ordered 42 times this lunch
+                    <span className="bg-secondary-fixed rounded-full w-1.5 h-1.5"></span>
+                    {ownerHighlights.length > 0
+                      ? `${ownerHighlights[0].discountPercentage}% OFF campus deal`
+                      : 'Ordered 42 times this lunch'}
                   </div>
                 </div>
                 <h4 className="font-title-lg font-bold text-on-surface text-title-lg leading-snug">
-                  {popularDealItems[0]?.name || sourceItems[1]?.name || 'Smash Burger'} + {popularDealItems[1]?.name || 'Cold Brew'} Combo
+                  {ownerHighlights[0]?.title ||
+                    `${popularDealItems[0]?.name || sourceItems[1]?.name || 'Smash Burger'} + ${popularDealItems[1]?.name || 'Cold Brew'} Combo`}
                 </h4>
                 <p className="mt-1 font-body-sm text-body-sm text-on-surface-variant">
-                  {popularDealItems[0]?.description || sourceItems[1]?.description || 'Delicious meal'} paired with {popularDealItems[1]?.name?.toLowerCase() || 'refreshing beverage'}. {isAuthenticated ? 'Personalized for you!' : 'Complete meal deal!'}
+                  {ownerHighlights[0]?.description ||
+                    `${popularDealItems[0]?.description || sourceItems[1]?.description || 'Delicious meal'} paired with ${popularDealItems[1]?.name?.toLowerCase() || 'refreshing beverage'}. Complete meal deal!`}
                 </p>
               </div>
               <div className="flex justify-between items-center mt-space-sm pt-space-md">
                 <div>
                   <span className="font-title-lg font-bold text-primary text-title-lg">
-                    ₹{((popularDealItems[0]?.price || sourceItems[1]?.price || 60) + (popularDealItems[1]?.price || 80))}
+                    ₹{ownerHighlights[0]?.discountedPrice ?? ((popularDealItems[0]?.price || sourceItems[1]?.price || 60) + (popularDealItems[1]?.price || 80))}
                   </span>
                   <span className="ml-1 font-body-sm text-body-sm text-on-surface-variant line-through">
-                    ₹{((popularDealItems[0]?.originalPrice || popularDealItems[0]?.price || sourceItems[1]?.price || 75) + (popularDealItems[1]?.originalPrice || popularDealItems[1]?.price || 95))}
+                    ₹{ownerHighlights[0]?.originalPrice ?? ((popularDealItems[0]?.originalPrice || popularDealItems[0]?.price || sourceItems[1]?.price || 75) + (popularDealItems[1]?.originalPrice || popularDealItems[1]?.price || 95))}
                   </span>
                 </div>
                 <button
                   onClick={handlePopularDealAdd}
-                  className="flex items-center gap-1 bg-primary-container hover:bg-primary px-space-sm py-space-xs rounded-full font-label-md font-bold text-label-md text-on-primary active:scale-95 transition-colors"
+                  className="flex items-center gap-1 bg-primary-container hover:bg-primary px-space-sm py-space-xs rounded-full font-label-md font-bold text-label-md text-on-primary active:scale-95 transition-colors cursor-pointer"
                 >
-                  <span>Quick Add</span>
+                  <span>{highlightSettings?.ctaText || 'Quick Add'}</span>
                   <span className="text-sm material-symbols-outlined">add</span>
                 </button>
               </div>

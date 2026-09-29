@@ -114,6 +114,13 @@ const userSchema = new mongoose.Schema(
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address']
     },
+    username: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true,
+      lowercase: true
+    },
     passwordHash: {
       type: String,
       required: [true, 'Password hash is required'],
@@ -121,8 +128,12 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'student', 'admin'],
+      enum: ['user', 'student', 'admin', 'owner'],
       default: 'student'
+    },
+    mustChangePassword: {
+      type: Boolean,
+      default: false
     },
     phone: {
       type: String,

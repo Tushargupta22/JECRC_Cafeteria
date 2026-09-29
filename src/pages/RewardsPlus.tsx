@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStudent } from '../context/StudentContext';
 import { LeaderboardUser } from '../data/mockData';
-import { leaderboardApi, subscriptionApi, loyaltyApi, SubscriptionPlan, LoyaltyTransaction } from '../services/api';
+import { leaderboardApi, subscriptionApi, loyaltyApi, dealsApi, SubscriptionPlan, LoyaltyTransaction, Reward } from '../services/api';
 
 export const DEFAULT_DINING_CLUB_PLANS: SubscriptionPlan[] = [
   {
@@ -82,6 +82,7 @@ export const RewardsPlus: React.FC = () => {
   const [plans, setPlans] = useState<SubscriptionPlan[]>(DEFAULT_DINING_CLUB_PLANS);
   const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([]);
   const [subscribing, setSubscribing] = useState<string | null>(null);
+  const [dbRewards, setDbRewards] = useState<Reward[]>([]);
 
   // Fetch real data from backend
   useEffect(() => {
@@ -129,6 +130,13 @@ export const RewardsPlus: React.FC = () => {
           }
         }).catch(() => {});
       }
+
+      // 4. Rewards & Available Perks from MongoDB
+      dealsApi.getActiveRewards().then(res => {
+        if (res && res.rewards) {
+          setDbRewards(res.rewards);
+        }
+      }).catch(() => {});
     };
 
     // Initial fetch
@@ -418,55 +426,116 @@ export const RewardsPlus: React.FC = () => {
               </div>
 
               <div className="space-y-space-sm">
-                {/* Perk 1: ₹50 Voucher */}
-                <div className="flex justify-between items-center gap-space-sm bg-surface-container-low hover:bg-surface-container p-space-md rounded-2xl transition-all">
-                  <div className="flex items-center gap-space-sm">
-                    <div className="flex justify-center items-center bg-primary-container/15 rounded-xl w-12 h-12 text-primary shrink-0">
-                      <span className="text-2xl material-symbols-outlined">confirmation_number</span>
-                    </div>
-                    <div>
-                      <div className="font-title-md font-bold text-on-surface text-title-md">₹50 OFF Coupon (JECRC50)</div>
-                      <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
-                        <span>Valid on orders &gt; ₹100</span>
-                        <span>•</span>
-                        <span className="font-bold text-primary">500 pts</span>
-                      </div>
-                    </div>
-                  </div>
-                  {redeemedVouchers.includes('₹50 OFF Coupon') ? (
-                    <span className="bg-secondary px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-secondary">
-                      Claimed!
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => handleRedeem(500, '₹50 OFF Coupon')}
-                      className="bg-primary-container hover:opacity-90 shadow-sm px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-primary active:scale-95 transition-transform cursor-pointer shrink-0"
-                    >
-                      Redeem
-                    </button>
-                  )}
-                </div>
+                {/* Dynamic DB Rewards filtered by subscriber status */}
+                {(() => {
+                  const isSubscriber = Boolean(user?.subscription?.isActive);
+                  const eligibleRewards = dbRewards.filter(r => {
+                    if (!r.isActive) return false;
+                    if (r.availableFor === 'both') return true;
+                    if (r.availableFor === 'subscriber') return isSubscriber;
+                    if (r.availableFor === 'normal') return !isSubscriber;
+                    return true;
+                  });
 
-                {/* Perk 2: Free Artisan Beverage */}
-                <div className="flex justify-between items-center gap-space-sm bg-surface-container-low/60 opacity-85 p-space-md rounded-2xl">
-                  <div className="flex items-center gap-space-sm">
-                    <div className="flex justify-center items-center bg-surface-container-highest rounded-xl w-12 h-12 text-on-surface-variant shrink-0">
-                      <span className="text-2xl material-symbols-outlined">local_cafe</span>
-                    </div>
-                    <div>
-                      <div className="font-title-md font-bold text-on-surface text-title-md">Free Artisan Cold Coffee</div>
-                      <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
-                        <span>Hazelnut / Mocha</span>
-                        <span>•</span>
-                        <span className="font-bold">1,000 pts</span>
+                  if (eligibleRewards.length === 0) {
+                    return (
+                      <>
+                        {/* Fallback Perk 1 */}
+                        <div className="flex justify-between items-center gap-space-sm bg-surface-container-low hover:bg-surface-container p-space-md rounded-2xl transition-all">
+                          <div className="flex items-center gap-space-sm">
+                            <div className="flex justify-center items-center bg-primary-container/15 rounded-xl w-12 h-12 text-primary shrink-0">
+                              <span className="text-2xl material-symbols-outlined">confirmation_number</span>
+                            </div>
+                            <div>
+                              <div className="font-title-md font-bold text-on-surface text-title-md">₹50 OFF Coupon (JECRC50)</div>
+                              <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+                                <span>Valid on orders &gt; ₹100</span>
+                                <span>•</span>
+                                <span className="font-bold text-primary">500 pts</span>
+                              </div>
+                            </div>
+                          </div>
+                          {redeemedVouchers.includes('₹50 OFF Coupon') ? (
+                            <span className="bg-secondary px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-secondary">
+                              Claimed!
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => handleRedeem(500, '₹50 OFF Coupon')}
+                              className="bg-primary-container hover:opacity-90 shadow-sm px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-primary active:scale-95 transition-transform cursor-pointer shrink-0"
+                            >
+                              Redeem
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Fallback Perk 2 */}
+                        <div className="flex justify-between items-center gap-space-sm bg-surface-container-low/60 opacity-85 p-space-md rounded-2xl">
+                          <div className="flex items-center gap-space-sm">
+                            <div className="flex justify-center items-center bg-surface-container-highest rounded-xl w-12 h-12 text-on-surface-variant shrink-0">
+                              <span className="text-2xl material-symbols-outlined">local_cafe</span>
+                            </div>
+                            <div>
+                              <div className="font-title-md font-bold text-on-surface text-title-md">Free Artisan Cold Coffee</div>
+                              <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant">
+                                <span>Hazelnut / Mocha</span>
+                                <span>•</span>
+                                <span className="font-bold">1,000 pts</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 bg-surface-container-highest px-space-sm py-1 rounded-full font-label-sm font-semibold text-label-sm text-on-surface-variant shrink-0">
+                            <span className="text-xs material-symbols-outlined">lock</span>
+                            Need {Math.max(0, 1000 - student.points)} pts
+                          </div>
+                        </div>
+                      </>
+                    );
+                  }
+
+                  return eligibleRewards.map(reward => {
+                    const iconName = reward.rewardType === 'voucher' ? 'confirmation_number' : reward.rewardType === 'free_item' ? 'local_cafe' : reward.rewardType === 'combo' ? 'fastfood' : 'stars';
+                    const hasEnoughPoints = student.points >= (reward.pointsCost || 0);
+                    const isClaimed = redeemedVouchers.includes(reward.title);
+
+                    return (
+                      <div key={reward._id} className="flex justify-between items-center gap-space-sm bg-surface-container-low hover:bg-surface-container p-space-md rounded-2xl transition-all">
+                        <div className="flex items-center gap-space-sm">
+                          <div className="flex justify-center items-center bg-primary-container/15 rounded-xl w-12 h-12 text-primary shrink-0">
+                            <span className="text-2xl material-symbols-outlined">{iconName}</span>
+                          </div>
+                          <div>
+                            <div className="font-title-md font-bold text-on-surface text-title-md">{reward.title}</div>
+                            <div className="text-xs text-primary font-medium">{reward.offerText}</div>
+                            <div className="flex items-center gap-space-xs font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                              <span>{reward.eligibility || 'All students'}</span>
+                              <span>•</span>
+                              <span className="font-bold text-primary">{reward.pointsCost > 0 ? `${reward.pointsCost} pts` : 'Free Perk'}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {isClaimed ? (
+                          <span className="bg-secondary px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-secondary">
+                            Claimed!
+                          </span>
+                        ) : hasEnoughPoints ? (
+                          <button
+                            onClick={() => handleRedeem(reward.pointsCost || 0, reward.title)}
+                            className="bg-primary-container hover:opacity-90 shadow-sm px-space-md py-space-xs rounded-full font-label-md font-bold text-label-md text-on-primary active:scale-95 transition-transform cursor-pointer shrink-0"
+                          >
+                            Redeem
+                          </button>
+                        ) : (
+                          <div className="flex items-center gap-1 bg-surface-container-highest px-space-sm py-1 rounded-full font-label-sm font-semibold text-label-sm text-on-surface-variant shrink-0">
+                            <span className="text-xs material-symbols-outlined">lock</span>
+                            Need {Math.max(0, (reward.pointsCost || 0) - student.points)} pts
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 bg-surface-container-highest px-space-sm py-1 rounded-full font-label-sm font-semibold text-label-sm text-on-surface-variant shrink-0">
-                    <span className="text-xs material-symbols-outlined">lock</span>
-                    Need {Math.max(0, 1000 - student.points)} pts
-                  </div>
-                </div>
+                    );
+                  });
+                })()}
               </div>
             </div>
 

@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { OrderProvider } from './context/OrderContext';
 import { StudentProvider } from './context/StudentContext';
 import { AdminKitchenProvider } from './context/AdminKitchenContext';
+import { OwnerProvider } from './context/OwnerContext';
 import { AppRoutes } from './routes/AppRoutes';
 
 export const App: React.FC = () => {
@@ -11,11 +12,13 @@ export const App: React.FC = () => {
     <BrowserRouter>
       <StudentProvider>
         <AdminKitchenProvider>
-          <CartProvider>
-            <OrderProvider>
-              <AppRoutes />
-            </OrderProvider>
-          </CartProvider>
+          <OwnerProvider>
+            <CartProvider>
+              <OrderProvider>
+                <AppRoutes />
+              </OrderProvider>
+            </CartProvider>
+          </OwnerProvider>
         </AdminKitchenProvider>
       </StudentProvider>
     </BrowserRouter>

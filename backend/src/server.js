@@ -2,6 +2,7 @@ import app from './app.js';
 import { connectDB, disconnectDB } from './config/db.js';
 import Food from './models/Food.js';
 import { seedDatabase } from './scripts/seed.js';
+import { bootstrapOwner } from './utils/bootstrapOwner.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -9,6 +10,9 @@ const startServer = async () => {
   try {
     // Initialize Database
     await connectDB();
+
+    // Bootstrap secure Owner account and highlight settings
+    await bootstrapOwner();
 
     // Auto-seed food menu if freshly started and menu is empty
     const foodCount = await Food.countDocuments();

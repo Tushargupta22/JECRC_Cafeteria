@@ -29,6 +29,60 @@ export const setAuthToken = (token: string | null) => {
   }
 };
 
+// Owner Separate Token Storage
+const OWNER_TOKEN_KEY = 'cafetarea_owner_token';
+
+export const getOwnerToken = (): string | null => {
+  return localStorage.getItem(OWNER_TOKEN_KEY);
+};
+
+export const setOwnerToken = (token: string | null) => {
+  if (token) {
+    localStorage.setItem(OWNER_TOKEN_KEY, token);
+  } else {
+    localStorage.removeItem(OWNER_TOKEN_KEY);
+  }
+};
+
+async function ownerRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const token = getOwnerToken();
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {})
+  };
+
+  if (token) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
+  }
+
+  const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers,
+      cache: 'no-store'
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new ApiError(
+        response.status,
+        data.error || data.message || `Owner request failed with status ${response.status}`,
+        data
+      );
+    }
+
+    return data as T;
+  } catch (err: any) {
+    if (err instanceof ApiError) {
+      throw err;
+    }
+    throw new ApiError(0, err.message || 'Network error connecting to owner service');
+  }
+}
+
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = getAuthToken();
   const headers: HeadersInit = {
@@ -460,3 +514,211 @@ export const loyaltyApi = {
       transactions: []
     }))
 };
+
+// ==========================================
+// Owner Portal & Promotions Types & APIs
+// ==========================================
+
+export interface Deal {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  originalPrice: number;
+  discountedPrice: number;
+  discountPercentage: number;
+  startDate: string;
+  expiryDate: string;
+  isActive: boolean;
+  showInHighlights: boolean;
+  availableFor: 'normal' | 'subscriber' | 'both';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Reward {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  offerText: string;
+  rewardType: 'perk' | 'voucher' | 'free_item' | 'combo';
+  pointsCost: number;
+  eligibility: string;
+  availableFor: 'normal' | 'subscriber' | 'both';
+  startDate: string;
+  expiryDate: string;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface HighlightSettings {
+  _id?: string;
+  overlayEnabled: boolean;
+  overlayIntensity: 'light' | 'medium' | 'dark' | 'strong';
+  heading: string;
+  subtitle: string;
+  badgeText: string;
+  ctaText: string;
+  backgroundImage?: string;
+}
+
+export interface OwnerCoupon {
+  _id: string;
+  title: string;
+  couponCode: string;
+  description: string;
+  discountType: 'percentage' | 'fixed';
+  discount: number;
+  minimumOrder: number;
+  maxDiscount: number | null;
+  usageLimit: number | null;
+  perUserLimit: number;
+  timesUsed?: number;
+  validFrom: string;
+  validUntil: string;
+  availableFor: 'normal' | 'subscriber' | 'both';
+  applicableMembershipPlans: string[];
+  isActive: boolean;
+  createdAt?: string;
+}
+
+export interface OwnerDashboardStats {
+  totalActiveDeals: number;
+  totalActiveCoupons: number;
+  totalActiveRewards: number;
+  highlightedDeals: number;
+  expiringPromotions: number;
+}
+
+export const ownerApi = {
+  login: (credentials: { username: string; password: string }) =>
+    request<{
+      success: boolean;
+      message: string;
+      token: string;
+      mustChangePassword: boolean;
+      owner: { id: string; name: string; username: string; email: string; role: string };
+    }>('/owner/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials)
+    }),
+
+  changePassword: (data: { currentPassword: string; newPassword: string; confirmNewPassword: string }) =>
+    ownerRequest<{ success: boolean; message: string }>('/owner/change-password', {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    }),
+
+  getProfile: () =>
+    ownerRequest<{
+      success: boolean;
+      owner: { id: string; name: string; username: string; email: string; role: string; mustChangePassword: boolean };
+    }>('/owner/profile'),
+
+  getDashboardStats: () =>
+    ownerRequest<{
+      success: boolean;
+      stats: OwnerDashboardStats;
+      recentOffers: { deals: Deal[]; coupons: OwnerCoupon[] };
+    }>('/owner/dashboard'),
+
+  // Deals
+  getDeals: () =>
+    ownerRequest<{ success: boolean; count: number; deals: Deal[] }>('/owner/deals'),
+
+  getDealById: (id: string) =>
+    ownerRequest<{ success: boolean; deal: Deal }>(`/owner/deals/${id}`),
+
+  createDeal: (dealData: Partial<Deal>) =>
+    ownerRequest<{ success: boolean; message: string; deal: Deal }>('/owner/deals', {
+      method: 'POST',
+      body: JSON.stringify(dealData)
+    }),
+
+  updateDeal: (id: string, dealData: Partial<Deal>) =>
+    ownerRequest<{ success: boolean; message: string; deal: Deal }>(`/owner/deals/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(dealData)
+    }),
+
+  deleteDeal: (id: string) =>
+    ownerRequest<{ success: boolean; message: string }>(`/owner/deals/${id}`, {
+      method: 'DELETE'
+    }),
+
+  // Coupons
+  getCoupons: () =>
+    ownerRequest<{ success: boolean; count: number; coupons: OwnerCoupon[] }>('/owner/coupons'),
+
+  createCoupon: (couponData: any) =>
+    ownerRequest<{ success: boolean; message: string; coupon: OwnerCoupon }>('/owner/coupons', {
+      method: 'POST',
+      body: JSON.stringify(couponData)
+    }),
+
+  updateCoupon: (id: string, couponData: any) =>
+    ownerRequest<{ success: boolean; message: string; coupon: OwnerCoupon }>(`/owner/coupons/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(couponData)
+    }),
+
+  deleteCoupon: (id: string) =>
+    ownerRequest<{ success: boolean; message: string }>(`/owner/coupons/${id}`, {
+      method: 'DELETE'
+    }),
+
+  // Rewards & Perks
+  getRewards: () =>
+    ownerRequest<{ success: boolean; count: number; rewards: Reward[] }>('/owner/rewards'),
+
+  createReward: (rewardData: Partial<Reward>) =>
+    ownerRequest<{ success: boolean; message: string; reward: Reward }>('/owner/rewards', {
+      method: 'POST',
+      body: JSON.stringify(rewardData)
+    }),
+
+  updateReward: (id: string, rewardData: Partial<Reward>) =>
+    ownerRequest<{ success: boolean; message: string; reward: Reward }>(`/owner/rewards/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(rewardData)
+    }),
+
+  deleteReward: (id: string) =>
+    ownerRequest<{ success: boolean; message: string }>(`/owner/rewards/${id}`, {
+      method: 'DELETE'
+    }),
+
+  // Highlight Appearance Settings
+  getHighlightSettings: () =>
+    ownerRequest<{ success: boolean; settings: HighlightSettings }>('/owner/highlights/settings'),
+
+  updateHighlightSettings: (settings: Partial<HighlightSettings>) =>
+    ownerRequest<{ success: boolean; message: string; settings: HighlightSettings }>('/owner/highlights/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings)
+    }),
+
+  // Promo Image Upload
+  uploadPromoImage: (imageBase64: string) =>
+    ownerRequest<{ success: boolean; message: string; imageUrl: string }>('/owner/upload-image', {
+      method: 'POST',
+      body: JSON.stringify({ imageBase64 })
+    })
+};
+
+export const dealsApi = {
+  getTodaysHighlights: () =>
+    request<{ success: boolean; count: number; deals: Deal[]; settings: HighlightSettings }>('/deals/todays-highlights'),
+
+  getActiveDeals: () =>
+    request<{ success: boolean; count: number; deals: Deal[] }>('/deals'),
+
+  getActiveRewards: () =>
+    request<{ success: boolean; count: number; rewards: Reward[] }>('/rewards/active'),
+
+  getHighlightSettings: () =>
+    request<{ success: boolean; settings: HighlightSettings }>('/highlights/settings')
+};
+

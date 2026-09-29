@@ -11,6 +11,9 @@ import { AdminDashboard } from '../pages/AdminDashboard';
 import { AdminInventory } from '../pages/AdminInventory';
 import { AdminKiosks } from '../pages/AdminKiosks';
 import { CafeteriaDisplay } from '../pages/CafeteriaDisplay';
+import { OwnerLogin } from '../pages/owner/OwnerLogin';
+import { OwnerChangePassword } from '../pages/owner/OwnerChangePassword';
+import { OwnerDashboard } from '../pages/owner/OwnerDashboard';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -32,6 +35,12 @@ export const AppRoutes: React.FC = () => {
         <Route path="inventory" element={<AdminInventory />} />
         <Route path="kiosks" element={<AdminKiosks />} />
       </Route>
+
+      {/* Owner Management Portal Routes */}
+      <Route path="/owner/login" element={<OwnerLogin />} />
+      <Route path="/owner/change-password" element={<OwnerChangePassword />} />
+      <Route path="/owner" element={<OwnerDashboard />} />
+      <Route path="/owner/dashboard" element={<Navigate to="/owner" replace />} />
 
       {/* Standalone 10-foot Cafeteria TV Broadcast Display */}
       <Route path="/cafeteria-display" element={<CafeteriaDisplay />} />

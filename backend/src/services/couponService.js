@@ -75,21 +75,34 @@ export const validateAndCalculateCoupon = async ({
     }
   }
 
-  // Check subscription requirement
-  if (offer.subscriptionRequirement || offer.targetAudience === 'subscribers') {
-    const isSubscriber = Boolean(
-      user &&
-      user.subscription &&
-      user.subscription.isActive &&
-      user.subscription.endDate &&
-      new Date(user.subscription.endDate) > now
-    );
+  // Check subscription and audience requirement
+  const isSubscriber = Boolean(
+    user &&
+    user.subscription &&
+    user.subscription.isActive &&
+    user.subscription.endDate &&
+    new Date(user.subscription.endDate) > now
+  );
+
+  if (offer.availableFor === 'subscriber' || offer.subscriptionRequirement || offer.targetAudience === 'subscribers') {
     if (!isSubscriber) {
       const error = new Error('This coupon is exclusively for active Dining Club members');
       error.statusCode = 403;
       throw error;
     }
 
+    if (offer.applicableMembershipPlans && offer.applicableMembershipPlans.length > 0) {
+      const userPlan = user.subscription?.plan;
+      if (!userPlan || !offer.applicableMembershipPlans.includes(userPlan)) {
+        const error = new Error(`This coupon is only valid for: ${offer.applicableMembershipPlans.join(', ')}`);
+        error.statusCode = 403;
+        throw error;
+      }
+    }
+  } else if (offer.availableFor === 'normal' && isSubscriber) {
+    const error = new Error('This coupon is exclusively for non-subscription students');
+    error.statusCode = 403;
+    throw error;
   }
 
   // Check new user rule
@@ -141,8 +154,14 @@ export const validateAndCalculateCoupon = async ({
   let discountAmount = 0;
   if (offer.discountType === 'percentage') {
     discountAmount = Math.round((numericSubtotal * offer.discount) / 100);
+    if (offer.maxDiscount && offer.maxDiscount > 0) {
+      discountAmount = Math.min(discountAmount, offer.maxDiscount);
+    }
   } else {
     discountAmount = Math.min(numericSubtotal, offer.discount);
+    if (offer.maxDiscount && offer.maxDiscount > 0) {
+      discountAmount = Math.min(discountAmount, offer.maxDiscount);
+    }
   }
 
   return {

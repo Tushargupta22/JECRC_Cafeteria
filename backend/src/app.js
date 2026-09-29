@@ -12,6 +12,8 @@ import offerRoutes from './routes/offerRoutes.js';
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import ownerRoutes from './routes/ownerRoutes.js';
+import dealRoutes from './routes/dealRoutes.js';
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
 
 dotenv.config();
@@ -86,6 +88,13 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/leaderboard', leaderboardRoutes);
 app.use('/api/admin/analytics', analyticsRoutes);
 app.use('/admin/analytics', analyticsRoutes);
+app.use('/api/owner', ownerRoutes);
+app.use('/owner', ownerRoutes);
+app.use('/api/deals', dealRoutes);
+app.use('/deals', dealRoutes);
+app.use('/api/coupons', dealRoutes);
+app.use('/api/rewards', dealRoutes);
+app.use('/api/highlights', dealRoutes);
 
 // 404 & Centralized Error Handlers
 app.use(notFoundHandler);

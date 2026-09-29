@@ -128,6 +128,26 @@ const offerSchema = new mongoose.Schema(
       default: '🎁',
       trim: true
     },
+    maxDiscount: {
+      type: Number,
+      default: null,
+      min: 0
+    },
+    availableFor: {
+      type: String,
+      enum: ['normal', 'subscriber', 'both'],
+      default: 'both',
+      index: true
+    },
+    applicableMembershipPlans: {
+      type: [String],
+      default: []
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
+    },
     isActive: {
       type: Boolean,
       default: true,

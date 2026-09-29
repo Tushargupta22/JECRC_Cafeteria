@@ -41,7 +41,15 @@ export const register = async (req, res, next) => {
       });
     }
 
-    // Role validation: Admin role requires verified server-side Admin Access Key
+    // Role validation: Owner accounts cannot be registered via signup
+    if (role === 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Owner accounts cannot be created via standard registration. Use provisioned credentials.'
+      });
+    }
+
+    // Admin role requires verified server-side Admin Access Key
     let assignedRole = 'student';
 
     if (role === 'admin') {
