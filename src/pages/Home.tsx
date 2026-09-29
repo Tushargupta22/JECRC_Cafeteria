@@ -251,11 +251,12 @@ export const Home: React.FC = () => {
                   </span>
                   <div className="flex flex-col text-left">
                     <span className="font-label-sm font-bold text-label-sm text-on-surface">
-                      {student.isPlusMember ? 'Cafeteria Plus' : 'Standard Member'}
+                      {student.isPlusMember ? (user?.subscription?.plan || 'Dining Club Active') : 'Standard Member'}
                     </span>
                     <span className="text-[10px] text-on-surface-variant leading-none">
-                      {student.isPlusMember ? `Valid till ${student.plusExpiry}` : 'Upgrade for 10% OFF'}
+                      {student.isPlusMember ? (student.plusExpiry ? `Valid till ${student.plusExpiry}` : 'Member Active') : 'Upgrade for Dining Club'}
                     </span>
+
                   </div>
                 </Link>
 

@@ -1,8 +1,11 @@
 import Order from '../models/Order.js';
 import Offer from '../models/Offer.js';
 import Food from '../models/Food.js';
+import Subscription from '../models/Subscription.js';
+import User from '../models/User.js';
 import { calculateOrderPricing } from '../services/orderService.js';
 import { awardLoyaltyForOrder } from '../services/loyaltyService.js';
+import { getISTDateString } from '../config/subscriptionPlans.js';
 
 export const createOrder = async (req, res, next) => {
   try {
@@ -26,6 +29,7 @@ export const createOrder = async (req, res, next) => {
 
     console.log('[Order] User subscription:', req.user.subscription);
     console.log('[Order] Subscription discount:', pricing.subscriptionDiscount);
+    console.log('[Order] Milestone discount:', pricing.milestoneDiscount);
     console.log('[Order] Subtotal:', pricing.subtotal);
     console.log('[Order] Total after discount:', pricing.total);
 
@@ -110,6 +114,9 @@ export const createOrder = async (req, res, next) => {
       subtotal: pricing.subtotal,
       discount: pricing.discount,
       subscriptionDiscount: pricing.subscriptionDiscount,
+      milestoneDiscount: pricing.milestoneDiscount || 0,
+      milestoneOrder: pricing.qualifyingMilestone?.orderNumber || null,
+      isEligibleOrder: pricing.isEligibleOrder || false,
       offerDiscount: pricing.offerDiscount,
       couponCode: appliedCouponCode,
       offerId: pricing.appliedOffer?._id || null,
@@ -122,6 +129,49 @@ export const createOrder = async (req, res, next) => {
       station: pricing.verifiedItems[0]?.stationTag || 'Counter 1',
       note: note || ''
     });
+
+    // Atomically consume subscription discount usage and eligible order count
+    if (pricing.activeSub) {
+      const todayIST = getISTDateString(new Date());
+      const subInc = {};
+      const subSet = {};
+      const subAddToSet = {};
+
+      if (pricing.isEligibleOrder) {
+        subInc.eligibleOrderCount = 1;
+      }
+
+      if (pricing.subscriptionDiscountApplied) {
+        subInc.subscriptionUsageCount = 1;
+        subSet.lastSubscriptionDiscountDate = todayIST;
+      }
+
+      if (pricing.qualifyingMilestone) {
+        subAddToSet.milestonesAwarded = pricing.qualifyingMilestone.orderNumber;
+      }
+
+      const updateQuery = {};
+      if (Object.keys(subInc).length > 0) updateQuery.$inc = subInc;
+      if (Object.keys(subSet).length > 0) updateQuery.$set = subSet;
+      if (Object.keys(subAddToSet).length > 0) updateQuery.$addToSet = subAddToSet;
+
+      if (Object.keys(updateQuery).length > 0) {
+        const updatedSub = await Subscription.findByIdAndUpdate(
+          pricing.activeSub._id,
+          updateQuery,
+          { new: true }
+        );
+
+        if (updatedSub) {
+          await User.findByIdAndUpdate(req.user._id, {
+            'subscription.subscriptionUsageCount': updatedSub.subscriptionUsageCount,
+            'subscription.lastSubscriptionDiscountDate': updatedSub.lastSubscriptionDiscountDate,
+            'subscription.eligibleOrderCount': updatedSub.eligibleOrderCount,
+            'subscription.milestonesAwarded': updatedSub.milestonesAwarded
+          });
+        }
+      }
+    }
 
     // Record coupon usage for the user
     if (pricing.appliedOffer) {
@@ -231,11 +281,66 @@ export const updateOrderStatus = async (req, res, next) => {
     }
 
     if (status === 'Cancelled' && order.orderStatus !== 'Cancelled') {
+      // 1. Restore stock
       for (const item of order.items) {
         await Food.findByIdAndUpdate(item.foodId, {
           $inc: { stockCount: item.quantity },
           isAvailable: true
         });
+      }
+
+      // 2. Roll back subscription counters if consumed
+      const activeSub = await Subscription.findOne({
+        userId: order.userId,
+        isActive: true
+      }).sort({ createdAt: -1 });
+
+      if (activeSub) {
+        const subInc = {};
+        const subSet = {};
+        const subPull = {};
+
+        if (order.isEligibleOrder) {
+          subInc.eligibleOrderCount = -1;
+        }
+
+        if (order.subscriptionDiscount > 0) {
+          subInc.subscriptionUsageCount = -1;
+          const orderDateIST = getISTDateString(order.createdAt);
+          if (activeSub.lastSubscriptionDiscountDate === orderDateIST) {
+            subSet.lastSubscriptionDiscountDate = null;
+          }
+        }
+
+        if (order.milestoneOrder) {
+          subPull.milestonesAwarded = order.milestoneOrder;
+        }
+
+        const updateQuery = {};
+        if (Object.keys(subInc).length > 0) updateQuery.$inc = subInc;
+        if (Object.keys(subSet).length > 0) updateQuery.$set = subSet;
+        if (Object.keys(subPull).length > 0) updateQuery.$pull = subPull;
+
+        if (Object.keys(updateQuery).length > 0) {
+          const updatedSub = await Subscription.findByIdAndUpdate(
+            activeSub._id,
+            updateQuery,
+            { new: true }
+          );
+
+          if (updatedSub) {
+            if (updatedSub.eligibleOrderCount < 0) updatedSub.eligibleOrderCount = 0;
+            if (updatedSub.subscriptionUsageCount < 0) updatedSub.subscriptionUsageCount = 0;
+            await updatedSub.save();
+
+            await User.findByIdAndUpdate(order.userId, {
+              'subscription.subscriptionUsageCount': updatedSub.subscriptionUsageCount,
+              'subscription.lastSubscriptionDiscountDate': updatedSub.lastSubscriptionDiscountDate,
+              'subscription.eligibleOrderCount': updatedSub.eligibleOrderCount,
+              'subscription.milestonesAwarded': updatedSub.milestonesAwarded
+            });
+          }
+        }
       }
     }
 

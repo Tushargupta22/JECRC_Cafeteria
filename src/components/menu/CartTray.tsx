@@ -15,7 +15,9 @@ export const CartTray: React.FC<CartTrayProps> = ({ isDrawer, onClose }) => {
     itemCount,
     subtotal,
     plusDiscount,
-    plusDiscountPercentage,
+    plusDiscountLabel,
+    milestoneDiscount,
+    milestoneTitle,
     couponDiscount,
     total,
     earnedPoints,
@@ -26,6 +28,7 @@ export const CartTray: React.FC<CartTrayProps> = ({ isDrawer, onClose }) => {
     applyCoupon,
     removeCoupon
   } = useCart();
+
 
   const { createOrderFromCart } = useOrder();
   const { isAuthenticated, openAuthModal } = useStudent();
@@ -244,13 +247,24 @@ export const CartTray: React.FC<CartTrayProps> = ({ isDrawer, onClose }) => {
           <span>Item Subtotal</span>
           <span className="font-semibold text-on-surface">₹{subtotal}</span>
         </div>
-        <div className="flex justify-between text-secondary">
-          <span className="flex items-center gap-1">
-            <span>Cafeteria Plus Member Discount ({plusDiscountPercentage}%)</span>
-            <span className="text-xs material-symbols-outlined">info</span>
-          </span>
-          <span className="font-semibold">-₹{plusDiscount}</span>
-        </div>
+        {plusDiscount > 0 && (
+          <div className="flex justify-between text-secondary">
+            <span className="flex items-center gap-1">
+              <span>{plusDiscountLabel}</span>
+              <span className="text-xs material-symbols-outlined">info</span>
+            </span>
+            <span className="font-semibold">-₹{plusDiscount}</span>
+          </div>
+        )}
+        {milestoneDiscount > 0 && (
+          <div className="flex justify-between text-secondary">
+            <span className="flex items-center gap-1">
+              <span>{milestoneTitle || 'Milestone Bonus Coupon'}</span>
+              <span className="text-xs material-symbols-outlined">celebration</span>
+            </span>
+            <span className="font-semibold">-₹{milestoneDiscount}</span>
+          </div>
+        )}
         {couponDiscount > 0 && (
           <div className="flex justify-between text-secondary">
             <span>Promo Coupon Discount</span>
@@ -262,7 +276,7 @@ export const CartTray: React.FC<CartTrayProps> = ({ isDrawer, onClose }) => {
             <span>Campus Tech &amp; Packaging Fee</span>
             <span className="text-outline-variant line-through">₹15</span>
           </span>
-          <span className="font-bold text-secondary">FREE (Plus Benefit)</span>
+          <span className="font-bold text-secondary">FREE (Dining Club Benefit)</span>
         </div>
 
         {/* Grand Total Bar */}
@@ -273,9 +287,10 @@ export const CartTray: React.FC<CartTrayProps> = ({ isDrawer, onClose }) => {
             </span>
             <div className="flex items-center gap-1 mt-0.5 font-label-sm font-bold text-label-sm text-secondary">
               <span className="text-sm material-symbols-outlined">savings</span>
-              <span>You saved ₹{plusDiscount + couponDiscount + 15} on this meal!</span>
+              <span>You saved ₹{plusDiscount + milestoneDiscount + couponDiscount + 15} on this meal!</span>
             </div>
           </div>
+
           <div className="text-right">
             <span className="bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-full font-label-sm font-bold text-label-sm">
               🪙 +{earnedPoints} pts

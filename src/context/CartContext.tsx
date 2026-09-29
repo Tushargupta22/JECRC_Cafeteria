@@ -14,6 +14,9 @@ interface CartContextType {
   subtotal: number;
   plusDiscount: number;
   plusDiscountPercentage: number;
+  plusDiscountLabel: string;
+  milestoneDiscount: number;
+  milestoneTitle: string | null;
   couponDiscount: number;
   packagingFee: number;
   total: number;
@@ -83,18 +86,130 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return items.reduce((sum, item) => sum + item.item.price * item.quantity, 0);
   }, [items]);
 
-  // Plus Member discount - use actual subscription discount percentage from user data
-  const plusDiscount = useMemo(() => {
-    if (!student.isPlusMember || !user?.subscription?.isActive) return 0;
-    const discountPercent = user.subscription.discountPercentage || 10;
-    return Math.round(subtotal * (discountPercent / 100));
-  }, [subtotal, student.isPlusMember, user?.subscription?.isActive, user?.subscription?.discountPercentage]);
+  // Calculate current date in Asia/Kolkata (IST)
+  const todayIST = useMemo(() => {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).format(new Date());
+  }, []);
 
-  // Get actual discount percentage for display (used by CartTray)
-  const plusDiscountPercentage = useMemo(() => {
-    if (!student.isPlusMember || !user?.subscription?.isActive) return 0;
-    return user.subscription.discountPercentage || 10;
-  }, [student.isPlusMember, user?.subscription?.isActive, user?.subscription?.discountPercentage]);
+  // Dining Club Plan detection and subscription discount calculation
+  const subscriptionDetails = useMemo(() => {
+    const sub = user?.subscription;
+    if (!student.isPlusMember || !sub?.isActive) {
+      return { isEligible: false, discount: 0, label: '', percent: 0, isWeekly: false, planType: null };
+    }
+
+    // Expiry check
+    if (sub.endDate && new Date(sub.endDate) <= new Date()) {
+      return { isEligible: false, discount: 0, label: '', percent: 0, isWeekly: false, planType: null };
+    }
+
+    const planType = (sub.planType || '').toLowerCase();
+    const planName = (sub.plan || '').toLowerCase();
+
+    const isWeekly = planType === 'weekly' || planName.includes('weekly') || planName.includes('snack');
+    const is3Month =
+      planType === '3-month' ||
+      planType === 'semester' ||
+      planName.includes('3-month') ||
+      planName.includes('three') ||
+      planName.includes('semester');
+    const isMonthly = !isWeekly && !is3Month;
+
+    const minOrder = isWeekly ? 31 : 41;
+    const maxUses = isWeekly ? 7 : isMonthly ? 8 : 20;
+
+    // Checks:
+    // 1. Order meets minimum threshold
+    if (subtotal < minOrder) {
+      return { isEligible: false, discount: 0, label: '', percent: 0, isWeekly, planType: isWeekly ? 'weekly' : isMonthly ? 'monthly' : '3-month' };
+    }
+
+    // 2. Daily Limit: 1 subscription-discounted order per calendar day (IST)
+    if (sub.lastSubscriptionDiscountDate === todayIST) {
+      return { isEligible: false, discount: 0, label: '', percent: 0, isWeekly, planType: isWeekly ? 'weekly' : isMonthly ? 'monthly' : '3-month' };
+    }
+
+    // 3. Max subscription-discounted orders
+    if ((sub.subscriptionUsageCount || 0) >= maxUses) {
+      return { isEligible: false, discount: 0, label: '', percent: 0, isWeekly, planType: isWeekly ? 'weekly' : isMonthly ? 'monthly' : '3-month' };
+    }
+
+    // Calculate discount
+    if (isWeekly) {
+      // Flat ₹10 OFF
+      const discount = Math.min(10, subtotal);
+      return { isEligible: true, discount, label: 'Dining Club Member Discount (Flat ₹10 OFF)', percent: 0, isWeekly: true, planType: 'weekly' };
+    } else {
+      // Monthly & 3-Month: 15% OFF up to ₹20
+      const calculated = Math.round(subtotal * 0.15);
+      const discount = Math.min(calculated, 20);
+      return { isEligible: true, discount, label: 'Dining Club Member Discount (15% OFF up to ₹20)', percent: 15, isWeekly: false, planType: is3Month ? '3-month' : 'monthly' };
+    }
+  }, [subtotal, student.isPlusMember, user?.subscription, todayIST]);
+
+  const plusDiscount = subscriptionDetails.discount;
+  const plusDiscountPercentage = subscriptionDetails.percent;
+  const plusDiscountLabel = subscriptionDetails.label || 'Dining Club Member Discount';
+
+  // Milestone bonus coupon detection on qualifying order
+  const milestoneDetails = useMemo(() => {
+    const sub = user?.subscription;
+    if (!student.isPlusMember || !sub?.isActive) return { discount: 0, title: null };
+    if (sub.endDate && new Date(sub.endDate) <= new Date()) return { discount: 0, title: null };
+
+    const planType = (sub.planType || '').toLowerCase();
+    const planName = (sub.plan || '').toLowerCase();
+
+    const isWeekly = planType === 'weekly' || planName.includes('weekly') || planName.includes('snack');
+    if (isWeekly) return { discount: 0, title: null };
+
+    const is3Month =
+      planType === '3-month' ||
+      planType === 'semester' ||
+      planName.includes('3-month') ||
+      planName.includes('three') ||
+      planName.includes('semester');
+    const isMonthly = !isWeekly && !is3Month;
+
+    const minOrder = 41;
+    if (subtotal < minOrder) return { discount: 0, title: null };
+
+    const nextOrderNumber = (sub.eligibleOrderCount || 0) + 1;
+    const awarded = sub.milestonesAwarded || [];
+
+    if (isMonthly) {
+      if (nextOrderNumber === 15 && !awarded.includes(15)) {
+        return { discount: 10, title: '15th Order Milestone Reward (₹10 Bonus Coupon)' };
+      }
+      if (nextOrderNumber === 24 && !awarded.includes(24)) {
+        return { discount: 10, title: '24th Order Milestone Reward (₹10 Bonus Coupon)' };
+      }
+    } else if (is3Month) {
+      if (nextOrderNumber === 25 && !awarded.includes(25)) {
+        return { discount: 5, title: '25th Order Milestone Reward (₹5 Bonus Coupon)' };
+      }
+      if (nextOrderNumber === 28 && !awarded.includes(28)) {
+        return { discount: 5, title: '28th Order Milestone Reward (₹5 Bonus Coupon)' };
+      }
+      if (nextOrderNumber === 35 && !awarded.includes(35)) {
+        return { discount: 10, title: '35th Order Milestone Reward (₹10 Bonus Coupon)' };
+      }
+      if (nextOrderNumber === 40 && !awarded.includes(40)) {
+        return { discount: 8, title: '40th Order Milestone Reward (₹8 Bonus Coupon)' };
+      }
+    }
+
+    return { discount: 0, title: null };
+  }, [subtotal, student.isPlusMember, user?.subscription]);
+
+  const milestoneDiscount = milestoneDetails.discount;
+  const milestoneTitle = milestoneDetails.title;
+
 
   // Re-validate applied coupon with backend whenever subtotal or items change
   useEffect(() => {
@@ -145,14 +260,34 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const packagingFee = 0;
 
   const total = useMemo(() => {
-    const raw = subtotal - plusDiscount - couponDiscount + packagingFee;
+    const raw = subtotal - plusDiscount - milestoneDiscount - couponDiscount + packagingFee;
     return Math.max(0, raw);
-  }, [subtotal, plusDiscount, couponDiscount, packagingFee]);
+  }, [subtotal, plusDiscount, milestoneDiscount, couponDiscount, packagingFee]);
 
-  // ₹10 spent = 1 point earned
+  // ₹10 spent = 1 point earned, with 1.5x Dining Club multiplier after milestone orders
   const earnedPoints = useMemo(() => {
-    return Math.floor(total / 10);
-  }, [total]);
+    const sub = user?.subscription;
+    let multiplier = 1.0;
+    if (student.isPlusMember && sub?.isActive) {
+      const planType = (sub.planType || '').toLowerCase();
+      const planName = (sub.plan || '').toLowerCase();
+      const is3Month =
+        planType === '3-month' ||
+        planType === 'semester' ||
+        planName.includes('3-month') ||
+        planName.includes('three') ||
+        planName.includes('semester');
+      const isMonthly = !is3Month && (planType === 'monthly' || planName.includes('monthly') || planName.includes('plus'));
+
+      if (isMonthly && (sub.eligibleOrderCount || 0) >= 15) {
+        multiplier = 1.5;
+      } else if (is3Month && (sub.eligibleOrderCount || 0) >= 21) {
+        multiplier = 1.5;
+      }
+    }
+    const basePoints = total / 10;
+    return Math.floor(basePoints * multiplier);
+  }, [total, student.isPlusMember, user?.subscription]);
 
   const addToCart = (item: MenuItem, quantity = 1) => {
     if (!item.inStock || item.price <= 0 || (item.stockCount !== undefined && item.stockCount <= 0)) {
@@ -268,6 +403,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         subtotal,
         plusDiscount,
         plusDiscountPercentage,
+        plusDiscountLabel,
+        milestoneDiscount,
+        milestoneTitle,
         couponDiscount,
         packagingFee,
         total,
@@ -288,6 +426,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </CartContext.Provider>
   );
+
 };
 
 export const useCart = () => {

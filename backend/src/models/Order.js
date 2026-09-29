@@ -75,6 +75,19 @@ const orderSchema = new mongoose.Schema(
       default: 0,
       min: 0
     },
+    milestoneDiscount: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    milestoneOrder: {
+      type: Number,
+      default: null
+    },
+    isEligibleOrder: {
+      type: Boolean,
+      default: false
+    },
     offerDiscount: {
       type: Number,
       default: 0,

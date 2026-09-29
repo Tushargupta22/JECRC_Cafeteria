@@ -88,13 +88,26 @@ export interface BackendUser {
   dailyRank?: number;
   dailySpend?: number;
   subscription?: {
+    subscriptionId?: string;
     plan: string;
+    planType?: string;
     price: number;
-    discountPercentage: number;
+    discountPercentage?: number;
+    discountAmount?: number;
+    discountType?: string;
+    minOrder?: number;
+    maxDiscountPerOrder?: number;
+    dailyLimit?: number;
+    maxDiscountedOrders?: number;
+    subscriptionUsageCount?: number;
+    lastSubscriptionDiscountDate?: string | null;
+    eligibleOrderCount?: number;
+    milestonesAwarded?: number[];
     startDate: string;
     endDate: string;
     isActive: boolean;
   };
+
   createdAt?: string;
   updatedAt?: string;
 }
@@ -145,6 +158,9 @@ export interface BackendOrder {
   subtotal: number;
   discount: number;
   subscriptionDiscount: number;
+  milestoneDiscount?: number;
+  milestoneOrder?: number | null;
+  isEligibleOrder?: boolean;
   offerDiscount: number;
   total: number;
   paymentMethod: string;
@@ -181,13 +197,23 @@ export interface BackendOffer {
 export interface SubscriptionPlan {
   id?: string;
   plan?: string;
+  planType?: string;
   name: string;
   price: number;
   durationDays: number;
-  discountPercentage: number;
+  minOrder?: number;
+  discount?: string;
+  discountType?: 'flat' | 'percentage';
+  discountAmount?: number;
+  discountPercentage?: number;
+  maxDiscount?: number;
+  dailyLimit?: number;
+  maxDiscountedOrders?: number;
+  joiningBonusLoyalty?: number;
   description?: string;
   features: string[];
 }
+
 
 export interface LeaderboardEntry {
   rank: number;

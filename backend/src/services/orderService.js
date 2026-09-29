@@ -1,11 +1,16 @@
 import Food from '../models/Food.js';
-import Offer from '../models/Offer.js';
+import Subscription from '../models/Subscription.js';
 import mongoose from 'mongoose';
 import { validateAndCalculateCoupon } from './couponService.js';
+import {
+  findSubscriptionPlan,
+  getISTDateString
+} from '../config/subscriptionPlans.js';
 
 /**
  * Validates cart items against MongoDB database, fetches true item prices,
- * and calculates subtotal, discounts (subscription & coupon), and final total.
+ * calculates subtotal, checks Dining Club subscription discount eligibility,
+ * computes milestone coupons, handles promo coupons, and enforces stacking limits.
  */
 export const calculateOrderPricing = async ({ items, user, couponCode }) => {
   if (!items || !Array.isArray(items) || items.length === 0) {
@@ -67,13 +72,70 @@ export const calculateOrderPricing = async ({ items, user, couponCode }) => {
     });
   }
 
-  // 1. Subscription Discount calculation
+  // 1. Fetch user's active subscription from database for atomic accuracy
+  let activeSub = null;
+  if (user && user._id) {
+    activeSub = await Subscription.findOne({
+      userId: user._id,
+      isActive: true,
+      endDate: { $gt: new Date() }
+    }).sort({ price: -1, createdAt: -1 });
+  }
+
+  const now = new Date();
+  const todayIST = getISTDateString(now);
+
   let subscriptionDiscount = 0;
-  if (user && user.subscription && user.subscription.isActive) {
-    const now = new Date();
-    if (user.subscription.endDate && new Date(user.subscription.endDate) > now) {
-      const pct = user.subscription.discountPercentage || 0;
-      subscriptionDiscount = Math.round(subtotal * (pct / 100));
+  let isEligibleOrder = false;
+  let subscriptionDiscountApplied = false;
+  let qualifyingMilestone = null;
+  let milestoneDiscount = 0;
+  let planConfig = null;
+
+  if (activeSub) {
+    planConfig = findSubscriptionPlan(activeSub.plan || activeSub.planType);
+
+    if (planConfig) {
+      const minOrder = planConfig.minOrder || 31;
+      // An order is "eligible" if subtotal meets the plan's minimum threshold
+      isEligibleOrder = subtotal >= minOrder;
+
+      // Check subscription discount eligibility:
+      // 1. Order meets minimum subtotal
+      // 2. Today's subscription discount has not already been used (enforced in IST)
+      // 3. Subscription discount uses have not reached plan maximum
+      const todayUsed = activeSub.lastSubscriptionDiscountDate === todayIST;
+      const usageCount = activeSub.subscriptionUsageCount || 0;
+      const maxUses = planConfig.maxDiscountedOrders || 7;
+      const usageExhausted = usageCount >= maxUses;
+
+      if (isEligibleOrder && !todayUsed && !usageExhausted) {
+        if (planConfig.discountType === 'flat') {
+          // Weekly: Flat ₹10 OFF (max ₹10)
+          subscriptionDiscount = Math.min(planConfig.discountAmount || 10, subtotal);
+        } else {
+          // Monthly & 3-Month: 15% OFF up to ₹20
+          const pctDiscount = Math.round(subtotal * ((planConfig.discountPercentage || 15) / 100));
+          subscriptionDiscount = Math.min(pctDiscount, planConfig.maxDiscount || 20);
+        }
+        subscriptionDiscountApplied = subscriptionDiscount > 0;
+      }
+
+      // Check Milestone Coupon eligibility:
+      // Even if subscription discount is exhausted or used today, eligible orders continue counting!
+      if (isEligibleOrder && planConfig.milestones && Array.isArray(planConfig.milestones)) {
+        const nextEligibleOrderNumber = (activeSub.eligibleOrderCount || 0) + 1;
+        const awardedMilestones = activeSub.milestonesAwarded || [];
+
+        const milestone = planConfig.milestones.find(
+          m => m.orderNumber === nextEligibleOrderNumber && !awardedMilestones.includes(m.orderNumber)
+        );
+
+        if (milestone) {
+          qualifyingMilestone = milestone;
+          milestoneDiscount = milestone.couponAmount;
+        }
+      }
     }
   }
 
@@ -92,16 +154,25 @@ export const calculateOrderPricing = async ({ items, user, couponCode }) => {
     appliedOffer = couponValidation.offer;
   }
 
-  const discount = subscriptionDiscount + offerDiscount;
+  // 3. Stacking Protection & Total Calculation
+  // Total discounts must not exceed subtotal (order cannot be negative)
+  const totalPotentialDiscount = subscriptionDiscount + milestoneDiscount + offerDiscount;
+  const discount = Math.min(subtotal, totalPotentialDiscount);
   const total = Math.max(0, subtotal - discount);
 
   return {
     verifiedItems,
     subtotal,
     subscriptionDiscount,
+    milestoneDiscount,
     offerDiscount,
     discount,
     total,
-    appliedOffer
+    appliedOffer,
+    activeSub,
+    planConfig,
+    isEligibleOrder,
+    subscriptionDiscountApplied,
+    qualifyingMilestone
   };
 };

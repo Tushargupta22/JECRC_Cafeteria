@@ -495,7 +495,7 @@ export const CafeteriaDisplay: React.FC = () => {
               <span className="mx-4 text-outline-variant">•</span>
               <span>⚡ Average kitchen wait time: 8 mins across all North Hall stalls</span>
               <span className="mx-4 text-outline-variant">•</span>
-              <span>⭐ Cafeteria Plus members enjoy priority pickup slots during 12:30 - 13:30 rush</span>
+              <span>⭐ Dining Club members enjoy priority pickup slots during 12:30 - 13:30 rush</span>
               <span className="mx-4 text-outline-variant">•</span>
               <span>🪙 Daily leaderboard resets at 11:59 PM IST</span>
             </div>

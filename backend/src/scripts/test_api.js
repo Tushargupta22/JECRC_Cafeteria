@@ -57,13 +57,13 @@ const runTests = async () => {
     // TEST SECTION 2: AUTHENTICATION & REGISTRATION
     // ----------------------------------------------------
     console.log('\n--- 2. Authentication & Validation ---');
-    const newStudentEmail = `test.student.${Date.now()}@jecrc.edu`;
+    const newStudentEmail = `rahul.sharma.${Date.now()}@jecrc.edu`;
 
     // 2a. Register new user
     const regRes = await request('/auth/register', {
       method: 'POST',
       body: JSON.stringify({
-        name: 'Integration Test Student',
+        name: 'Rahul Sharma',
         email: newStudentEmail,
         password: 'Password@123',
         confirmPassword: 'Password@123',
@@ -168,11 +168,12 @@ const runTests = async () => {
     );
 
     // 4d. Admin Create Food
+    const testFoodName = `Special Avocado Toast ${Date.now()}`;
     const createFoodRes = await request('/foods', {
       method: 'POST',
       headers: { Authorization: `Bearer ${adminToken}` },
       body: JSON.stringify({
-        name: 'Special Avocado Toast',
+        name: testFoodName,
         category: 'Breakfast',
         price: 95,
         description: 'Sourdough toast with smashed hass avocado, chili flakes, and extra virgin olive oil',
@@ -180,8 +181,9 @@ const runTests = async () => {
         calories: 220
       })
     });
-    assert(createFoodRes.status === 201 && createFoodRes.data.food.name === 'Special Avocado Toast', 'Admin creates food item (POST /api/foods)');
+    assert(createFoodRes.status === 201 && createFoodRes.data.food.name === testFoodName, 'Admin creates food item (POST /api/foods)');
     const createdFoodId = createFoodRes.data.food._id;
+
 
     // 4e. Admin Update Food
     const updateFoodRes = await request(`/foods/${createdFoodId}`, {
@@ -203,8 +205,9 @@ const runTests = async () => {
     // ----------------------------------------------------
     console.log('\n--- 5. Order Management & Server-Side Pricing ---');
     // Place order with tampered frontend price (e.g. attempting ₹1 instead of real price)
-    const foodItem1 = foodsRes.data.foods[0]; // Real price: e.g. 80
-    const foodItem2 = foodsRes.data.foods[1]; // Real price: e.g. 60
+    const inStockFoods = foodsRes.data.foods.filter(f => f.isAvailable && (f.stockCount === undefined || f.stockCount > 5) && f.price >= 30);
+    const foodItem1 = inStockFoods[0]; // Real price: e.g. 80
+    const foodItem2 = inStockFoods[1]; // Real price: e.g. 60
 
     const orderRes = await request('/orders', {
       method: 'POST',
@@ -218,6 +221,9 @@ const runTests = async () => {
       })
     });
 
+    if (orderRes.status !== 201) {
+      console.log('ORDER ERROR DATA:', orderRes.data);
+    }
     assert(orderRes.status === 201, 'Order created successfully (POST /api/orders)');
     const orderData = orderRes.data.order;
     const expectedSubtotal = foodItem1.price * 2 + foodItem2.price * 1;
@@ -267,13 +273,14 @@ const runTests = async () => {
     const plansRes = await request('/subscriptions/plans');
     assert(plansRes.status === 200 && plansRes.data.plans.length === 3, 'GET /api/subscriptions/plans returns 3 membership tiers');
 
-    // Subscribe to Weekly Snack Pass
+    // Subscribe to Weekly Dining Club
     const subRes = await request('/subscriptions/subscribe', {
       method: 'POST',
       headers: { Authorization: `Bearer ${studentToken}` },
-      body: JSON.stringify({ planName: 'Weekly Snack Pass' })
+      body: JSON.stringify({ planName: 'Weekly Dining Club' })
     });
     assert(subRes.status === 201 && subRes.data.subscription.isActive === true, 'POST /api/subscriptions/subscribe activates membership');
+
 
     // Get current subscription
     const currentSubRes = await request('/subscriptions/current', {

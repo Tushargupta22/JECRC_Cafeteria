@@ -85,10 +85,11 @@ export const validateAndCalculateCoupon = async ({
       new Date(user.subscription.endDate) > now
     );
     if (!isSubscriber) {
-      const error = new Error('This coupon is exclusively for active Cafeteria Plus subscribers');
+      const error = new Error('This coupon is exclusively for active Dining Club members');
       error.statusCode = 403;
       throw error;
     }
+
   }
 
   // Check new user rule

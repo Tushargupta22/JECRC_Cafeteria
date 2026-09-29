@@ -2,9 +2,27 @@ import mongoose from 'mongoose';
 
 const subscriptionSchema = new mongoose.Schema(
   {
+    subscriptionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Subscription',
+      default: null
+    },
     plan: {
       type: String,
-      enum: ['Weekly Snack Pass', 'Monthly Plus Membership', 'Semester Unlimited'],
+      enum: [
+        'Weekly Dining Club',
+        'Monthly Dining Club',
+        '3-Month Dining Club',
+        'Weekly Snack Pass',
+        'Monthly Plus Membership',
+        'Semester Unlimited',
+        null
+      ],
+      default: null
+    },
+    planType: {
+      type: String,
+      enum: ['weekly', 'monthly', '3-month', 'semester', null],
       default: null
     },
     price: {
@@ -14,6 +32,51 @@ const subscriptionSchema = new mongoose.Schema(
     discountPercentage: {
       type: Number,
       default: 0
+    },
+    discountAmount: {
+      type: Number,
+      default: 0
+    },
+    discountType: {
+      type: String,
+      enum: ['flat', 'percentage'],
+      default: 'percentage'
+    },
+    minOrder: {
+      type: Number,
+      default: 31
+    },
+    maxDiscountPerOrder: {
+      type: Number,
+      default: 20
+    },
+    dailyLimit: {
+      type: Number,
+      default: 1
+    },
+    maxDiscountedOrders: {
+      type: Number,
+      default: 7
+    },
+    subscriptionUsageCount: {
+      type: Number,
+      default: 0
+    },
+    lastSubscriptionDiscountDate: {
+      type: String,
+      default: null
+    },
+    eligibleOrderCount: {
+      type: Number,
+      default: 0
+    },
+    milestonesAwarded: {
+      type: [Number],
+      default: []
+    },
+    loyaltyBonusAwarded: {
+      type: Boolean,
+      default: false
     },
     startDate: {
       type: Date,
@@ -30,6 +93,7 @@ const subscriptionSchema = new mongoose.Schema(
   },
   { _id: false }
 );
+
 
 const userSchema = new mongoose.Schema(
   {

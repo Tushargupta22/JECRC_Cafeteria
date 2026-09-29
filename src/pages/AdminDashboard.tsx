@@ -405,7 +405,7 @@ export const AdminDashboard: React.FC = () => {
                       </div>
                       {ticket.isPlusPriority && (
                         <div className="text-tertiary font-label-sm text-label-sm font-bold mt-0.5">
-                          Cafeteria Plus Member (Priority Lane)
+                          Dining Club Member (Priority Lane)
                         </div>
                       )}
                     </div>
@@ -724,7 +724,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Module 2: Cafeteria Plus Subscription Matrix */}
+          {/* Module 2: Dining Club Subscription Matrix */}
           <div className="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col gap-space-md border border-surface-container/60">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -739,29 +739,30 @@ export const AdminDashboard: React.FC = () => {
             <div className="space-y-1.5">
               <div className="flex justify-between font-label-sm text-label-sm text-on-surface">
                 <span>Tier Distribution</span>
-                <span className="font-bold">32 Student • 42 Plus • 13 Premium</span>
+                <span className="font-bold">32 Weekly • 42 Monthly • 13 3-Month</span>
               </div>
               <div className="h-3 w-full rounded-full bg-surface-container-high flex overflow-hidden">
-                <div className="bg-surface-variant h-full" style={{ width: '36.7%' }} title="Student Plan: 32"></div>
-                <div className="bg-tertiary-container h-full" style={{ width: '48.3%' }} title="Plus Plan: 42"></div>
-                <div className="bg-primary-container h-full" style={{ width: '15%' }} title="Premium Plan: 13"></div>
+                <div className="bg-surface-variant h-full" style={{ width: '36.7%' }} title="Weekly: 32"></div>
+                <div className="bg-tertiary-container h-full" style={{ width: '48.3%' }} title="Monthly: 42"></div>
+                <div className="bg-primary-container h-full" style={{ width: '15%' }} title="3-Month: 13"></div>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-space-2xs text-center pt-2">
               <div className="p-space-xs rounded-xl bg-surface-container-low">
-                <span className="font-label-sm text-label-sm text-on-surface-variant block">Basic Pass</span>
+                <span className="font-label-sm text-label-sm text-on-surface-variant block">Weekly (₹99)</span>
                 <span className="font-title-md text-title-md text-on-surface font-bold">32</span>
               </div>
               <div className="p-space-xs rounded-xl bg-tertiary-fixed/30 border border-tertiary/20">
-                <span className="font-label-sm text-label-sm text-tertiary block font-bold">Plus Active</span>
+                <span className="font-label-sm text-label-sm text-tertiary block font-bold">Monthly (₹199)</span>
                 <span className="font-title-md text-title-md text-tertiary font-black">42</span>
               </div>
               <div className="p-space-xs rounded-xl bg-primary-fixed/30 border border-primary-container/20">
-                <span className="font-label-sm text-label-sm text-primary block font-bold">Premium VIP</span>
+                <span className="font-label-sm text-label-sm text-primary block font-bold">3-Month (₹499)</span>
                 <span className="font-title-md text-title-md text-primary font-black">13</span>
               </div>
             </div>
+
           </div>
         </div>
       </div>

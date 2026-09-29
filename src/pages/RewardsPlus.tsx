@@ -4,10 +4,82 @@ import { useStudent } from '../context/StudentContext';
 import { LeaderboardUser } from '../data/mockData';
 import { leaderboardApi, subscriptionApi, loyaltyApi, SubscriptionPlan, LoyaltyTransaction } from '../services/api';
 
+export const DEFAULT_DINING_CLUB_PLANS: SubscriptionPlan[] = [
+  {
+    id: 'weekly-dining-club',
+    plan: 'weekly-dining-club',
+    planType: 'weekly',
+    name: 'Weekly Dining Club',
+    price: 99,
+    durationDays: 7,
+    minOrder: 31,
+    discountType: 'flat',
+    discountAmount: 10,
+    maxDiscount: 10,
+    dailyLimit: 1,
+    maxDiscountedOrders: 7,
+    description: 'Flat ₹10 OFF on eligible orders (₹31+) • 1 order/day',
+    features: [
+      '7 Days',
+      '₹10 OFF on eligible orders',
+      '₹31+ minimum order',
+      '1 discounted order per day'
+    ]
+  },
+  {
+    id: 'monthly-dining-club',
+    plan: 'monthly-dining-club',
+    planType: 'monthly',
+    name: 'Monthly Dining Club',
+    price: 199,
+    durationDays: 30,
+    minOrder: 41,
+    discountType: 'percentage',
+    discountPercentage: 15,
+    maxDiscount: 20,
+    dailyLimit: 1,
+    maxDiscountedOrders: 8,
+    joiningBonusLoyalty: 10,
+    description: '15% OFF up to ₹20 • ₹41+ min order • Bonus milestone coupons',
+    features: [
+      '30 Days',
+      '15% OFF up to ₹20',
+      '₹41+ minimum order',
+      '1 discounted order per day',
+      'Bonus milestone coupons',
+      'Extra loyalty points'
+    ]
+  },
+  {
+    id: '3-month-dining-club',
+    plan: '3-month-dining-club',
+    planType: '3-month',
+    name: '3-Month Dining Club',
+    price: 499,
+    durationDays: 90,
+    minOrder: 41,
+    discountType: 'percentage',
+    discountPercentage: 15,
+    maxDiscount: 20,
+    dailyLimit: 1,
+    maxDiscountedOrders: 20,
+    joiningBonusLoyalty: 10,
+    description: '15% OFF up to ₹20 • ₹41+ min order • Milestone bonus coupons',
+    features: [
+      '90 Days',
+      '15% OFF up to ₹20',
+      '₹41+ minimum order',
+      '1 discounted order per day',
+      'Milestone bonus coupons',
+      'Extra loyalty points'
+    ]
+  }
+];
+
 export const RewardsPlus: React.FC = () => {
   const { student, user, redeemReward, redeemedVouchers, refreshUser, isAuthenticated, openAuthModal, openEditProfileModal } = useStudent();
   const [leaderboardUsers, setLeaderboardUsers] = useState<LeaderboardUser[]>([]);  // Empty by default, no fake data
-  const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
+  const [plans, setPlans] = useState<SubscriptionPlan[]>(DEFAULT_DINING_CLUB_PLANS);
   const [transactions, setTransactions] = useState<LoyaltyTransaction[]>([]);
   const [subscribing, setSubscribing] = useState<string | null>(null);
 
@@ -40,10 +112,14 @@ export const RewardsPlus: React.FC = () => {
 
       // 2. Subscription plans
       subscriptionApi.getPlans().then(res => {
-        if (res && res.plans) {
+        if (res && res.plans && res.plans.length > 0) {
           setPlans(res.plans);
+        } else {
+          setPlans(DEFAULT_DINING_CLUB_PLANS);
         }
-      }).catch(() => {});
+      }).catch(() => {
+        setPlans(DEFAULT_DINING_CLUB_PLANS);
+      });
 
       // 3. Loyalty Transactions
       if (isAuthenticated) {
@@ -105,12 +181,12 @@ export const RewardsPlus: React.FC = () => {
         (p.id || '').toLowerCase().includes(planKey.toLowerCase())
       );
       
-      const response = await subscriptionApi.subscribe(planKey);
+      await subscriptionApi.subscribe(planKey);
       await refreshUser();
       
-      // Use the discount percentage from the plan or response
-      const discountPercent = selectedPlan?.discountPercentage || response?.subscription?.discountPercentage || 10;
-      alert(`🎉 Congratulations! Your ${selectedPlan?.name || 'Cafeteria Plus'} membership is now active. ${discountPercent}% discount will automatically apply at checkout!`);
+      const isWeekly = selectedPlan?.planType === 'weekly' || selectedPlan?.name?.toLowerCase().includes('weekly');
+      const discountMsg = isWeekly ? 'Flat ₹10 OFF' : '15% discount (up to ₹20)';
+      alert(`🎉 Congratulations! Your ${selectedPlan?.name || 'Dining Club'} membership is now active. ${discountMsg} will automatically apply on eligible orders at checkout!`);
     } catch (err: any) {
       alert(err.message || 'Subscription failed');
     } finally {
@@ -138,17 +214,17 @@ export const RewardsPlus: React.FC = () => {
                   ? 'bg-primary-container text-on-primary'
                   : 'bg-surface-container text-on-surface'
               }`}>
-                {student.isPlusMember ? '⭐ Cafeteria Plus Active' : 'Standard Plan'}
+                {student.isPlusMember ? (user?.subscription?.plan ? `⭐ ${user.subscription.plan} Active` : '⭐ Dining Club Active') : 'Standard Plan'}
               </span>
               <span className="font-body-sm text-body-sm text-on-surface-variant">
-                {student.isPlusMember ? `Membership Valid till ${student.plusExpiry}` : 'Upgrade for 10% OFF all meals'}
+                {student.isPlusMember ? (student.plusExpiry ? `Membership Valid till ${student.plusExpiry}` : 'Active Member') : 'Upgrade for Dining Club benefits'}
               </span>
             </div>
             <h1 className="font-headline-lg font-bold text-headline-lg text-on-surface">
               Campus Wallet &amp; Rewards
             </h1>
             <p className="max-w-xl font-body-md text-body-md text-on-surface-variant">
-              Earn 1 loyalty coin per ₹10 spent, climb daily food leaderboards, and enjoy exclusive 10% discounts across all university dining counters.
+              Earn 1 loyalty coin per ₹10 spent, climb daily food leaderboards, and enjoy exclusive Dining Club discounts across all university dining counters.
             </p>
           </div>
           {isAuthenticated ? (
@@ -209,7 +285,7 @@ export const RewardsPlus: React.FC = () => {
                     <span className="font-headline-sm font-bold text-headline-sm text-on-surface">Campus Wallet</span>
                     {student.isPlusMember && (
                       <span className="bg-secondary-container px-space-xs py-0.5 rounded-full font-label-sm font-bold text-label-sm text-on-secondary-container">
-                        ⭐ Plus Active
+                        ⭐ Dining Club Active
                       </span>
                     )}
                   </div>
@@ -279,43 +355,52 @@ export const RewardsPlus: React.FC = () => {
                     Dining Club Membership
                   </div>
                   <span className="font-label-sm font-bold text-label-sm text-primary">
-                    10% OFF Every Meal
+                    Member-Only Discounts
                   </span>
                 </div>
                 <div className="space-y-space-sm">
                   {plans.map(plan => {
                     const planKey = plan.name || plan.id || plan.plan || '';
-                    const isSemester = plan.name?.toLowerCase().includes('semester') || plan.id?.includes('semester') || plan.plan === 'plus_semester';
+                    const is3Month = plan.planType === '3-month' || plan.name?.toLowerCase().includes('3-month') || plan.name?.toLowerCase().includes('three') || plan.name?.toLowerCase().includes('semester');
                     return (
                       <div
                         key={plan.id || plan.name || plan.plan}
-                        className="flex justify-between items-center gap-space-sm bg-surface-container-low p-space-md border border-surface-container/60 hover:border-primary/40 rounded-2xl transition-colors"
+                        className="bg-surface-container-low p-space-md border border-surface-container/60 hover:border-primary/40 rounded-2xl transition-colors space-y-space-xs"
                       >
-                        <div>
-                          <div className="flex items-center gap-1.5 font-title-md font-bold text-on-surface text-title-md">
-                            <span>{plan.name}</span>
-                            {isSemester && (
-                              <span className="bg-primary-container px-2 py-0.2 rounded-full font-bold text-[10px] text-on-primary">
-                                BEST VALUE
-                              </span>
-                            )}
-                          </div>
-                          <p className="mt-0.5 font-body-sm text-body-sm text-on-surface-variant">
-                            {plan.description}
-                          </p>
-                        </div>
-                        <div className="text-right shrink-0">
-                          <div className="font-headline-sm font-black text-headline-sm text-on-surface">
-                            ₹{plan.price}
+                        <div className="flex justify-between items-start gap-space-sm">
+                          <div>
+                            <div className="flex items-center gap-1.5 font-title-md font-bold text-on-surface text-title-md">
+                              <span>{plan.name}</span>
+                              {is3Month && (
+                                <span className="bg-primary-container px-2 py-0.2 rounded-full font-bold text-[10px] text-on-primary">
+                                  BEST VALUE
+                                </span>
+                              )}
+                            </div>
+                            <div className="mt-1 font-headline-sm font-black text-headline-sm text-on-surface">
+                              ₹{plan.price}
+                            </div>
                           </div>
                           <button
                             onClick={() => handleSubscribe(planKey)}
                             disabled={subscribing === planKey}
-                            className="bg-primary-container disabled:opacity-60 hover:shadow-sm mt-1 px-3 py-1 rounded-full font-label-sm font-bold text-label-sm text-on-primary transition-all cursor-pointer"
+                            className="bg-primary-container disabled:opacity-60 hover:shadow-sm px-4 py-1.5 rounded-full font-label-sm font-bold text-label-sm text-on-primary transition-all cursor-pointer shrink-0"
                           >
                             {subscribing === planKey ? 'Activating...' : student.isPlusMember ? 'Renew' : 'Join Plus'}
                           </button>
                         </div>
+                        {plan.features && plan.features.length > 0 && (
+                          <div className="pt-2 border-t border-surface-container/60">
+                            <ul className="space-y-1 text-xs text-on-surface-variant font-medium">
+                              {plan.features.map((feat, idx) => (
+                                <li key={idx} className="flex items-center gap-1.5">
+                                  <span className="text-primary text-xs material-symbols-outlined">check</span>
+                                  <span>{feat}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -414,7 +499,7 @@ export const RewardsPlus: React.FC = () => {
                     ⭐
                   </div>
                   <span className="font-label-sm font-bold text-label-sm text-on-surface line-clamp-1">Plus Member</span>
-                  <span className="font-body-sm text-[10px] text-body-sm text-on-surface-variant">Dining Club VIP</span>
+                  <span className="font-body-sm text-[10px] text-body-sm text-on-surface-variant">Dining Club Member</span>
                 </div>
               </div>
             </div>

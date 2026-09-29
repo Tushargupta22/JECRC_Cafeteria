@@ -259,18 +259,19 @@ export const getPersonalizedOffers = async (userId) => {
     candidates.push({
       couponCode: 'PLUSHERO',
       title: 'Exclusive Dining Club Offer',
-      description: 'Exclusive 20% VIP perk and priority kitchen service for active members.',
-      discount: 20,
+      description: 'Exclusive Dining Club member savings and benefits for active members.',
+      discount: 15,
       discountType: 'percentage',
       targetAudience: 'subscribers',
-      badgeText: '⭐ VIP Member Perk',
+      badgeText: '⭐ Member Perk',
       icon: '⭐',
-      recommendationReason: '⭐ Exclusive VIP perk for Cafeteria Plus Members',
+      recommendationReason: '⭐ Exclusive benefit for Dining Club Members',
       subscriptionRequirement: true,
       perUserLimit: 5,
-      minimumOrder: 0
+      minimumOrder: 41
     });
   }
+
 
   // 3. Inactive User (Welcome Back)
   if (orderCount > 0 && daysSinceLastOrder !== null && daysSinceLastOrder >= 7) {
