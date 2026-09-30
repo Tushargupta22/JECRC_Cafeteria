@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
         <p className="font-body-sm text-body-sm text-on-surface-variant text-center md:text-left">
           © 2026 JECRC Cafeteria. Smart Campus Dining Technologies. Serving speed &amp; freshness.
         </p>
-        <div className="flex items-center gap-space-md font-label-md text-label-md text-on-surface-variant">
+        <div className="flex flex-wrap items-center justify-center md:justify-end gap-space-md font-label-md text-label-md text-on-surface-variant">
           <Link to="/menu" className="hover:text-primary transition-colors">
             Dietary Guide
           </Link>
@@ -24,6 +24,9 @@ export const Footer: React.FC = () => {
           </Link>
           <Link to="/rewards-plus" className="hover:text-primary transition-colors">
             Campus Support
+          </Link>
+          <Link to="/owner/login" className="hover:text-primary transition-colors">
+            Owner Portal
           </Link>
         </div>
       </div>
