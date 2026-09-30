@@ -154,16 +154,19 @@ export const recoverOwnerAccount = async (req, res, next) => {
       });
     }
 
+    const targetUsername = (process.env.OWNER_USERNAME || 'owner').trim().toLowerCase();
+    const targetEmail = (process.env.OWNER_EMAIL || 'owner@jecrc.edu').trim().toLowerCase();
     const defaultPassword = process.env.OWNER_DEFAULT_PASSWORD || 'TTBrothers';
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(defaultPassword, salt);
 
     let owner = await User.findOneAndUpdate(
-      { $or: [{ role: 'owner' }, { username: 'owner' }] },
+      { $or: [{ role: 'owner' }, { username: targetUsername }, { email: targetEmail }] },
       {
         passwordHash,
         mustChangePassword: true,
-        role: 'owner'
+        role: 'owner',
+        username: targetUsername
       },
       { new: true }
     );
@@ -171,8 +174,8 @@ export const recoverOwnerAccount = async (req, res, next) => {
     if (!owner) {
       owner = await User.create({
         name: 'Cafeteria Owner',
-        username: 'owner',
-        email: process.env.OWNER_EMAIL || 'owner@jecrc.edu',
+        username: targetUsername,
+        email: targetEmail,
         passwordHash,
         role: 'owner',
         mustChangePassword: true,
