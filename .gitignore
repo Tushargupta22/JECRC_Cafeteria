@@ -44,3 +44,9 @@ lerna-debug.log*
 # Temporary copies and archives
 *copy*
 *.zip
+
+# Dynamic uploads
+backend/public/uploads/avatar-*
+backend/public/uploads/promo_*
+public/uploads/avatar-*
+public/uploads/promo_*
