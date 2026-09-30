@@ -18,6 +18,7 @@ export const bootstrapOwner = async () => {
     }).select('+passwordHash');
 
     if (!owner) {
+      // Create new owner record with default credentials
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(defaultPassword, salt);
 
@@ -33,42 +34,58 @@ export const bootstrapOwner = async () => {
 
       console.log('🔒 [Bootstrap] Owner account initialized successfully with secure credentials.');
     } else {
-      let needsSave = false;
+      console.log('🔒 [Bootstrap] Owner record located in database.');
 
-      // Ensure proper role, username, and email are persisted
-      if (owner.role !== 'owner') {
-        owner.role = 'owner';
-        needsSave = true;
-      }
-      if (!owner.username || owner.username !== targetUsername) {
-        owner.username = targetUsername;
-        needsSave = true;
-      }
-      if (!owner.email) {
-        owner.email = targetEmail;
-        needsSave = true;
-      }
+      // Safely determine whether the stored password matches the configured default password
+      const isDefaultMatch = owner.passwordHash
+        ? await bcrypt.compare(defaultPassword, owner.passwordHash)
+        : false;
 
-      // If owner has never changed initial password, ensure default password is valid
-      if (owner.mustChangePassword !== false) {
-        const isMatch = owner.passwordHash
-          ? await bcrypt.compare(defaultPassword, owner.passwordHash)
-          : false;
+      // An account is an activated Owner account if:
+      // - mustChangePassword is false
+      // - AND it has been initialized by bootstrap (phone === '9876543210')
+      // - AND its password does not match default (owner has set a custom password)
+      const isActivatedOwner = (owner.mustChangePassword === false && owner.phone === '9876543210' && !isDefaultMatch);
 
-        if (!isMatch) {
-          const salt = await bcrypt.genSalt(10);
-          owner.passwordHash = await bcrypt.hash(defaultPassword, salt);
-          owner.mustChangePassword = true;
-          needsSave = true;
-          console.log('🔒 [Bootstrap] Synchronized initial default password for unactivated owner account.');
+      if (isActivatedOwner) {
+        // PRESERVE ACTIVATED CUSTOM PASSWORD
+        // Only verify essential identity attributes without touching credentials
+        let updateFields = {};
+        if (owner.role !== 'owner') updateFields.role = 'owner';
+        if (owner.username !== targetUsername) updateFields.username = targetUsername;
+        if (!owner.email) updateFields.email = targetEmail;
+
+        if (Object.keys(updateFields).length > 0) {
+          await User.findOneAndUpdate({ _id: owner._id }, { $set: updateFields });
+          console.log('🔒 [Bootstrap] Owner account attributes verified.');
+        } else {
+          console.log('🔒 [Bootstrap] Owner account verified (activated custom password preserved).');
         }
-      }
-
-      if (needsSave) {
-        await owner.save();
-        console.log('🔒 [Bootstrap] Owner account attributes updated and verified.');
       } else {
-        console.log('🔒 [Bootstrap] Owner account verified.');
+        // UNINITIALIZED / LEGACY ACCOUNT REQUIRING SYNCHRONIZATION:
+        // Either the account is unactivated, predates initial bootstrap, or password hash is out of sync.
+        console.log('🔒 [Bootstrap] Repairing and synchronizing uninitialized/legacy owner credentials...');
+
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(defaultPassword, salt);
+
+        await User.findOneAndUpdate(
+          { _id: owner._id },
+          {
+            $set: {
+              name: owner.name || 'Cafeteria Owner',
+              username: targetUsername,
+              email: targetEmail,
+              role: 'owner',
+              passwordHash,
+              mustChangePassword: true,
+              phone: '9876543210'
+            }
+          },
+          { new: true }
+        );
+
+        console.log('🔒 [Bootstrap] Owner account successfully repaired and synchronized with default credentials.');
       }
     }
 
