@@ -219,10 +219,12 @@ async function runTests() {
     headers: { Authorization: `Bearer ${studentToken}` },
     body: JSON.stringify({ image: samplePngBase64 })
   });
-  if (uploadRes.status !== 200 || !uploadRes.data.imageUrl || !uploadRes.data.imageUrl.includes('/uploads/avatar-')) {
+  const isCloudinaryUrl = uploadRes.data.imageUrl && uploadRes.data.imageUrl.startsWith('https://res.cloudinary.com/');
+  const isLocalDiskUrl = uploadRes.data.imageUrl && uploadRes.data.imageUrl.includes('/uploads/avatar');
+  if (uploadRes.status !== 200 || !uploadRes.data.imageUrl || (!isCloudinaryUrl && !isLocalDiskUrl)) {
     throw new Error(`Avatar upload failed: ${JSON.stringify(uploadRes.data)}`);
   }
-  console.log(`✅ 14. Avatar image saved to disk and served at: ${uploadRes.data.imageUrl}`);
+  console.log(`✅ 14. Avatar image saved successfully (${uploadRes.data.provider || 'storage'}) at: ${uploadRes.data.imageUrl}`);
 
   // Verify avatar is accessible via HTTP GET
   const avatarHttp = await fetch(uploadRes.data.imageUrl);

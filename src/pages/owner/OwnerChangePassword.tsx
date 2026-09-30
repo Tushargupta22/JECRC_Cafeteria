@@ -36,8 +36,8 @@ export const OwnerChangePassword: React.FC = () => {
       return;
     }
 
-    if (newPassword === 'TTBrothers') {
-      setError('New password cannot be identical to the default initial password');
+    if (newPassword === currentPassword) {
+      setError('New password cannot be identical to current password');
       return;
     }
 
@@ -172,8 +172,8 @@ export const OwnerChangePassword: React.FC = () => {
             <div className={newPassword.length >= 8 ? 'text-emerald-600 font-medium' : ''}>
               • At least 8 characters long
             </div>
-            <div className={newPassword && newPassword !== 'TTBrothers' ? 'text-emerald-600 font-medium' : ''}>
-              • Cannot be the default password
+            <div className={newPassword && newPassword !== currentPassword ? 'text-emerald-600 font-medium' : ''}>
+              • Cannot be identical to current password
             </div>
             <div className={newPassword && newPassword === confirmNewPassword ? 'text-emerald-600 font-medium' : ''}>
               • Passwords must match

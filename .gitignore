@@ -47,6 +47,9 @@ lerna-debug.log*
 
 # Dynamic uploads
 backend/public/uploads/avatar-*
+backend/public/uploads/avatar_*
 backend/public/uploads/promo_*
 public/uploads/avatar-*
+public/uploads/avatar_*
 public/uploads/promo_*
+

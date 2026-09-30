@@ -4,6 +4,7 @@ import fs from 'fs';
 import User from '../models/User.js';
 import { generateToken } from '../utils/jwt.js';
 import { calculateUserDailyRankAndSpend } from './leaderboardController.js';
+import { uploadAvatarImage } from '../services/cloudinaryService.js';
 
 export const register = async (req, res, next) => {
   try {
@@ -319,55 +320,22 @@ export const uploadAvatar = async (req, res, next) => {
       });
     }
 
-    // Match data URI scheme (e.g. data:image/png;base64,...)
-    const matches = image.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid image format. Expected base64 data URI.'
-      });
-    }
-
-    const ext = matches[1] === 'jpeg' ? 'jpg' : matches[1];
-    const base64Data = matches[2];
-    const buffer = Buffer.from(base64Data, 'base64');
-
-    // Limit image size to 5MB
-    if (buffer.length > 5 * 1024 * 1024) {
-      return res.status(400).json({
-        success: false,
-        message: 'Image file size exceeds maximum limit of 5MB'
-      });
-    }
-
-    const uploadsDir = path.resolve('./public/uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const filename = `avatar-${req.user._id}-${Date.now()}.${ext}`;
-    const filePath = path.join(uploadsDir, filename);
-
-    await fs.promises.writeFile(filePath, buffer);
-
-    // Build URL (supporting localhost:5000 in dev or host header)
-    const host = req.get('host') || 'localhost:5000';
-    const protocol = req.protocol || 'http';
-    const imageUrl = `${protocol}://${host}/uploads/${filename}`;
+    const uploadResult = await uploadAvatarImage(image, req.user._id, req);
 
     // Update user's profileImage in MongoDB
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
-      { profileImage: imageUrl },
+      { profileImage: uploadResult.imageUrl },
       { new: true }
     );
 
     const rankData = await calculateUserDailyRankAndSpend(updatedUser._id);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Avatar uploaded successfully',
-      imageUrl,
+      imageUrl: uploadResult.imageUrl,
+      provider: uploadResult.provider,
       user: {
         ...updatedUser.toJSON(),
         dailyRank: rankData.dailyRank,
@@ -375,6 +343,13 @@ export const uploadAvatar = async (req, res, next) => {
       }
     });
   } catch (error) {
+    if (error.statusCode) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message
+      });
+    }
     next(error);
   }
 };
+

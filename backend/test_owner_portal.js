@@ -111,7 +111,30 @@ async function runTests() {
     const createdDealId = dealData.deal._id;
 
     // 6. Test Image Upload
-    console.log('\n--- Testing Promo Image Upload ---');
+    console.log('\n--- Testing Promo Image Upload & Cloudinary Integration ---');
+    // 6a. Reject missing image
+    const emptyUploadRes = await fetch(`${BASE_URL}/owner/upload-image`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ownerToken}`
+      },
+      body: JSON.stringify({})
+    });
+    assert(emptyUploadRes.status === 400, 'Image upload rejects missing image with 400 Bad Request');
+
+    // 6b. Reject invalid image format
+    const badUploadRes = await fetch(`${BASE_URL}/owner/upload-image`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${ownerToken}`
+      },
+      body: JSON.stringify({ imageBase64: 'data:text/plain;base64,invalid' })
+    });
+    assert(badUploadRes.status === 400, 'Image upload rejects non-image format with 400 Bad Request');
+
+    // 6c. Successful upload with valid image
     const sampleBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
     const uploadRes = await fetch(`${BASE_URL}/owner/upload-image`, {
       method: 'POST',
@@ -123,7 +146,8 @@ async function runTests() {
     });
     const uploadData = await uploadRes.json();
     assert(uploadRes.status === 200, 'Image upload succeeds with 200 OK');
-    assert(uploadData.imageUrl && uploadData.imageUrl.startsWith('/uploads/'), 'Image URL points to /uploads/...');
+    assert(uploadData.imageUrl && (uploadData.imageUrl.startsWith('http') || uploadData.imageUrl.startsWith('/uploads/')), 'Image URL points to valid Cloudinary HTTPS or persistent URL');
+    assert(['cloudinary', 'local'].includes(uploadData.provider), 'Upload response indicates storage provider');
 
     // 7. Test Today\'s Highlights Public API
     console.log('\n--- Testing Today Highlights Public API ---');

@@ -7,6 +7,7 @@ import Offer from '../models/Offer.js';
 import Reward from '../models/Reward.js';
 import HighlightSettings from '../models/HighlightSettings.js';
 import { generateToken } from '../utils/jwt.js';
+import { uploadPromoImage as uploadPromoToStorage } from '../services/cloudinaryService.js';
 
 // ==========================================
 // 1. OWNER AUTHENTICATION & CREDENTIALS
@@ -833,7 +834,7 @@ export const updateOwnerHighlightSettings = async (req, res, next) => {
 
 export const uploadPromoImage = async (req, res, next) => {
   try {
-    const { imageBase64, filename } = req.body;
+    const { imageBase64 } = req.body;
 
     if (!imageBase64) {
       return res.status(400).json({
@@ -842,59 +843,25 @@ export const uploadPromoImage = async (req, res, next) => {
       });
     }
 
-    // Match supported types
-    const matches = imageBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    if (!matches || matches.length !== 3) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid base64 image format. Use data:image/png;base64,... etc.'
-      });
-    }
-
-    const mimeType = matches[1].toLowerCase();
-    const base64Data = matches[2];
-
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-    if (!allowedMimeTypes.includes(mimeType)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Unsupported image type. Allowed: JPEG, PNG, WebP.'
-      });
-    }
-
-    const buffer = Buffer.from(base64Data, 'base64');
-    if (buffer.length > 5 * 1024 * 1024) {
-      return res.status(400).json({
-        success: false,
-        message: 'Image size exceeds maximum limit of 5MB'
-      });
-    }
-
-    let ext = '.png';
-    if (mimeType === 'image/jpeg' || mimeType === 'image/jpg') ext = '.jpg';
-    if (mimeType === 'image/webp') ext = '.webp';
-
-    const safeName = `promo_${Date.now()}_${Math.random().toString(36).substring(2, 9)}${ext}`;
-    const uploadsDir = path.resolve('./public/uploads');
-
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-
-    const filePath = path.join(uploadsDir, safeName);
-    fs.writeFileSync(filePath, buffer);
-
-    const imageUrl = `/uploads/${safeName}`;
+    const uploadResult = await uploadPromoToStorage(imageBase64, req);
 
     return res.status(200).json({
       success: true,
       message: 'Image uploaded successfully',
-      imageUrl
+      imageUrl: uploadResult.imageUrl,
+      provider: uploadResult.provider
     });
   } catch (error) {
+    if (error.statusCode) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: error.message
+      });
+    }
     next(error);
   }
 };
+
 
 // ==========================================
 // 8. PUBLIC / STUDENT-FACING PROMOTIONS
